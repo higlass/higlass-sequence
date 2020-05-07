@@ -13,7 +13,6 @@ module.exports = function(config) {
       'node_modules/pixi.js/dist/pixi.js',
       'node_modules/react-bootstrap/dist/react-bootstrap.js',
       'node_modules/bootstrap/dist/css/bootstrap.min.css',
-      //'test/**/*.+(js|jsx)',
       'test/SVGExportTests.js',
       'node_modules/higlass/dist/hglib.css',
       'node_modules/higlass/dist/hglib.js',
@@ -37,7 +36,8 @@ module.exports = function(config) {
       'karma-sourcemap-loader',
       'karma-chrome-launcher',
       'karma-phantomjs-launcher',
-      'karma-server-side'
+      'karma-server-side',
+      'karma-verbose-reporter'
     ],
 
     babelPreprocessor: {
@@ -45,14 +45,14 @@ module.exports = function(config) {
         presets: ['airbnb'],
       },
     },
-    reporters: ['progress'],
+    reporters: ['verbose'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_DEBUG,
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    concurrency: 1, // because we use server-sdie
+    concurrency: 1, // because we use server-side
     customLaunchers: {
       Chrome_travis_ci: {
         base: 'Chrome',
