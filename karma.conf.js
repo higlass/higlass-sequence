@@ -4,7 +4,7 @@ require('babel-polyfill');
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'server-side'],
 
     files: [
       'node_modules/babel-polyfill/dist/polyfill.js',
@@ -37,6 +37,7 @@ module.exports = function(config) {
       'karma-sourcemap-loader',
       'karma-chrome-launcher',
       'karma-phantomjs-launcher',
+      'karma-server-side'
     ],
 
     babelPreprocessor: {
@@ -51,6 +52,7 @@ module.exports = function(config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
+    concurrency: 1, // because we use server-sdie
     customLaunchers: {
       Chrome_travis_ci: {
         base: 'Chrome',

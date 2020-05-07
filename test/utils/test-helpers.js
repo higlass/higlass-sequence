@@ -54,3 +54,20 @@ export const mountHGComponent = (prevDiv, prevHgc, viewConf, done, options) => {
 
   return [div, hgc];
 };
+
+export const removeHGComponent = div => {
+  if (!div) return;
+
+  ReactDOM.unmountComponentAtNode(div);
+  document.body.removeChild(div);
+};
+
+export const waitForDataLoaded = (delayInMs, dataLoadedCallback) => {
+  /**
+   * Just a delay function
+   */
+  setTimeout(() => {
+    dataLoadedCallback();
+  }, delayInMs);
+
+};

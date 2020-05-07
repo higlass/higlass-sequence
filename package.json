@@ -39,7 +39,11 @@
     "terser-webpack-plugin": "^3.0.1",
     "unminified-webpack-plugin": "^2.0.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "fetch-mock": "^8.3.2",
+    "karma-server-side": "^1.8.0",
+    "fs": "0.0.2",
+    "fs-extra": "^8.1.0"
   },
   "scripts": {
     "build-es": "rm -rf ./es/* && npx babel ./src/scripts/ --out-dir ./es/ --env-name esm",
