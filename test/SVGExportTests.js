@@ -53,7 +53,7 @@ describe('SVG export', () => {
          const tile = trackObj.visibleAndFetchedTiles()[0];
          const svgData = tile.svgData;
 
-         expect(svgData.letter[15]).to.equal('Nr');
+         expect(svgData.letter[15]).to.equal('N');
          expect(svgData.letter[16]).to.equal('T');
          expect(svgData.barColors[15]).to.equal('#800080');
          expect(svgData.barColors[16]).to.equal('#e8e500');
