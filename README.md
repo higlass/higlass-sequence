@@ -1,9 +1,10 @@
-# Multivec Tracks for HiGlass
+# Nucleotide sequence tracks for HiGlass - TODO: UPDATE DOCS
 
 Display genome-wide multivec tracks in HiGlass!
 
 [![HiGlass](https://img.shields.io/badge/higlass-🌸-brightgreen.svg)](http://higlass.io)
-[![Travis](https://img.shields.io/travis/daniellenguyen/higlass-multivec.svg)](https://travis-ci.org/daniellenguyen/higlass-multivec)
+[![Travis](https://img.shields.io/travis/daniellenguyen/higlass-multivec.svg)](https://travis-ci.org/github/higlass/higlass-sequence)
+
 
 
 This is the source code for multivec tracks in HiGlass only; for the rest of HiGlass,
