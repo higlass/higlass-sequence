@@ -46,12 +46,14 @@ describe("SVG export", () => {
       );
 
       const tile = trackObj.visibleAndFetchedTiles()[0];
-      const svgData = tile.svgData;
+      const svgDataRect = tile.svgDataRect;
 
-      expect(svgData.letter[15]).to.equal("N");
-      expect(svgData.letter[16]).to.equal("T");
-      expect(svgData.barColors[15]).to.equal("#800080");
-      expect(svgData.barColors[16]).to.equal("#e8e500");
+      expect(svgDataRect.barColors[15]).to.equal("#800080");
+      expect(svgDataRect.barColors[16]).to.equal("#e8e500");
+
+      const svgDataText = tile.svgDataText;
+      expect(svgDataText.letter[15]).to.equal("N");
+      expect(svgDataText.letter[16]).to.equal("T");
 
       done();
     });
