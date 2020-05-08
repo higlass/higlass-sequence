@@ -1,11 +1,10 @@
-import fetchMock from 'fetch-mock';
+import fetchMock from "fetch-mock";
 
 class FetchMockHelper {
   constructor(viewConf, testName) {
-    
     this.checkViewConf(viewConf);
 
-    this.server = require('karma-server-side'); // eslint-disable-line
+    this.server = require("karma-server-side"); // eslint-disable-line
 
     fetchMock.config.fallbackToNetwork = false;
     fetchMock.config.warnOnFallback = false;
@@ -14,15 +13,14 @@ class FetchMockHelper {
 
     this.mockedData = {};
     this.writeToFile = false;
-    
   }
 
   async getMockedData() {
-    const mockedResponses = await this.server.run(this.testName, function(
+    const mockedResponses = await this.server.run(this.testName, function (
       testName
     ) {
       try {
-        const fs = serverRequire('fs-extra'); // eslint-disable-line
+        const fs = serverRequire("fs-extra"); // eslint-disable-line
         const path = `./test/mocked-responses/${testName}.json`;
 
         // Read currently available mocked responses
@@ -40,12 +38,12 @@ class FetchMockHelper {
 
   async getOriginalFetchResponse(url, headers) {
     // This basically disables fetch-moch, so that we can call the original fetch
-    fetchMock.config.fallbackToNetwork = 'always';
+    fetchMock.config.fallbackToNetwork = "always";
 
     const response = await fetch(url, headers);
     let data;
 
-    if (headers.headers['Content-Type'] === 'text/plain') {
+    if (headers.headers["Content-Type"] === "text/plain") {
       data = response.text();
     } else {
       data = response.json();
@@ -58,26 +56,24 @@ class FetchMockHelper {
   }
 
   async activateFetchMock() {
-
     this.mockedData = await this.getMockedData();
 
     // Since we are not using the actual mocking functionality of fetch-mock,
     // catch will intercept every call of the global fetch method
     fetchMock.catch(async (url, headers) => {
-
       const [requestIds, isTileData] = this.getRequestIds(url);
       let data = {};
 
       // Check if all the requested data is already mocked
       let isAllDataMocked = true;
-      requestIds.forEach(id => {
+      requestIds.forEach((id) => {
         if (this.mockedData[id] === undefined) {
           isAllDataMocked = false;
         }
       });
 
       if (isAllDataMocked) {
-        requestIds.forEach(id => {
+        requestIds.forEach((id) => {
           if (isTileData) {
             data[id] = this.mockedData[id];
           } else {
@@ -119,11 +115,11 @@ class FetchMockHelper {
     const response = await this.server.run(
       this.testName,
       mockedResponsesJSON,
-      function(testName, data) {
+      function (testName, data) {
         try {
           // If the test is run by Travis, don't write the file
           if (!process.env.TRAVIS) {
-            const fs = serverRequire('fs-extra'); // eslint-disable-line
+            const fs = serverRequire("fs-extra"); // eslint-disable-line
             const path = `./test/mocked-responses/${testName}.json`;
             fs.writeFileSync(path, data);
           }
@@ -135,7 +131,10 @@ class FetchMockHelper {
     );
 
     if (response !== null) {
-      console.error('Could not store mocked responses', JSON.stringify(response));
+      console.error(
+        "Could not store mocked responses",
+        JSON.stringify(response)
+      );
     }
   }
 
@@ -145,17 +144,17 @@ class FetchMockHelper {
   }
 
   getRequestIds(url) {
-    const urlParts = url.split('?');
+    const urlParts = url.split("?");
 
     const isTileData =
-      url.includes('/tileset_info/') || url.includes('/tiles/');
+      url.includes("/tileset_info/") || url.includes("/tiles/");
     const tileIds = [];
 
     if (isTileData) {
       const params = new URLSearchParams(urlParts[1]);
 
       for (const p of params) {
-        if (p[0] === 'd') {
+        if (p[0] === "d") {
           tileIds.push(p[1]);
         }
       }
@@ -169,7 +168,7 @@ class FetchMockHelper {
   checkViewConf(viewConf) {
     if (JSON.stringify(viewConf).includes('"//')) {
       console.warn(
-        'Please use full URLs in your view config. // is not supported and might lead to errors.'
+        "Please use full URLs in your view config. // is not supported and might lead to errors."
       );
     }
   }

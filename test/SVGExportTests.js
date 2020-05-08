@@ -1,75 +1,67 @@
-import { expect } from 'chai';
-import register from 'higlass-register';
+import { expect } from "chai";
+import register from "higlass-register";
 
-import FetchMockHelper from './utils/FetchMockHelper';
+import FetchMockHelper from "./utils/FetchMockHelper";
 
-import {
-  HiGlassComponent,
-  getTrackObjectFromHGC,
-} from 'higlass';
+import { HiGlassComponent, getTrackObjectFromHGC } from "higlass";
 
 import {
   waitForDataLoaded,
   mountHGComponent,
-  removeHGComponent
-} from './utils/test-helpers'
+  removeHGComponent,
+} from "./utils/test-helpers";
 
-import viewConf from './view-configs/simple-track';
+import viewConf from "./view-configs/simple-track";
 
-import SequenceTrack from '../src/scripts/SequenceTrack';
-
+import SequenceTrack from "../src/scripts/SequenceTrack";
 
 register({
-  name: 'SequenceTrack',
+  name: "SequenceTrack",
   track: SequenceTrack,
   config: SequenceTrack.config,
 });
 
-describe('SVG export', () => {
-   const fetchMockHelper = new FetchMockHelper('', 'SVGExport');
+describe("SVG export", () => {
+  const fetchMockHelper = new FetchMockHelper("", "SVGExport");
 
-   beforeAll(async () => {
-      await fetchMockHelper.activateFetchMock();
-   });
+  beforeAll(async () => {
+    await fetchMockHelper.activateFetchMock();
+  });
 
-   describe('SVG export', () => {
-      let hgc = null;
-      let div = null;
-  
-      beforeAll(done => {
-        [div, hgc] = mountHGComponent(div, hgc, viewConf, done);
-      });
-  
-      it ('tests that the export works and contains the correct data', (done) => {
+  describe("SVG export", () => {
+    let hgc = null;
+    let div = null;
 
-         hgc.instance().handleExportSVG();
+    beforeAll((done) => {
+      [div, hgc] = mountHGComponent(div, hgc, viewConf, done);
+    });
 
-         const trackObj = getTrackObjectFromHGC(
-            hgc.instance(),
-            viewConf.views[0].uid,
-            viewConf.views[0].tracks.top[1].uid
-         );
+    it("tests that the export works and contains the correct data", (done) => {
+      hgc.instance().handleExportSVG();
 
-         const tile = trackObj.visibleAndFetchedTiles()[0];
-         const svgData = tile.svgData;
+      const trackObj = getTrackObjectFromHGC(
+        hgc.instance(),
+        viewConf.views[0].uid,
+        viewConf.views[0].tracks.top[1].uid
+      );
 
-         expect(svgData.letter[15]).to.equal('N');
-         expect(svgData.letter[16]).to.equal('T');
-         expect(svgData.barColors[15]).to.equal('#800080');
-         expect(svgData.barColors[16]).to.equal('#e8e500');
-   
-         done();
-      
-      });
+      const tile = trackObj.visibleAndFetchedTiles()[0];
+      const svgData = tile.svgData;
 
-      afterAll(() => {
-        removeHGComponent(div);
-      });
-   });
+      expect(svgData.letter[15]).to.equal("N");
+      expect(svgData.letter[16]).to.equal("T");
+      expect(svgData.barColors[15]).to.equal("#800080");
+      expect(svgData.barColors[16]).to.equal("#e8e500");
 
-	
-   afterAll(async () => {
-     await fetchMockHelper.storeDataAndResetFetchMock();
-   });
+      done();
+    });
 
+    afterAll(() => {
+      removeHGComponent(div);
+    });
+  });
+
+  afterAll(async () => {
+    await fetchMockHelper.storeDataAndResetFetchMock();
+  });
 });
