@@ -112,30 +112,21 @@ const SequenceTrack = (HGC, ...args) => {
     }
 
     rerender(newOptions, updateOptions = true) {
+      const visibleAndFetched = this.visibleAndFetchedTiles();
+
       if (updateOptions) {
         this.updateOptions(newOptions);
+        this.refreshTiles();
+        // if color scale has changed we need to reinitialize colors
+        for (let i = 0; i < visibleAndFetched.length; i++) {
+          this.createColorAndLetterData(visibleAndFetched[i]);
+        }
       }
-
-      const visibleAndFetched = this.visibleAndFetchedTiles();
 
       for (let i = 0; i < visibleAndFetched.length; i++) {
         this.renderTile(visibleAndFetched[i]);
       }
     }
-
-    /**
-     * Prevent BarTracks updateTile method from having an effect
-     *
-     * @param tile
-     */
-    updateTile() {}
-
-    /**
-     * Prevent BarTracks draw method from having an effect
-     *
-     * @param tile
-     */
-    drawTile(tile) {}
 
     /** cleanup */
     destroyTile(tile) {
@@ -217,7 +208,8 @@ const SequenceTrack = (HGC, ...args) => {
         return;
       }
 
-      tile.svgData = null;
+      tile.svgDataRect = null;
+      tile.svgDataText = null;
 
       tile.drawnAtScale = this._xScale.copy();
 
@@ -228,7 +220,7 @@ const SequenceTrack = (HGC, ...args) => {
         this.tilesetInfo.tile_size
       );
 
-      this.drawVerticalBars(tileX, tileWidth, tile);
+      this.drawColoredRectangles(tileX, tileWidth, tile);
       this.drawTextSequence(tileX, tileWidth, tile);
     }
 
@@ -424,8 +416,6 @@ const SequenceTrack = (HGC, ...args) => {
             letter: this.getLetterFromArray(0),
             color: hexString,
           };
-        } else {
-          console.error("Unknown colorAggregationMdoe.");
         }
 
         matrixWithColors.push(columnColors);
@@ -479,6 +469,14 @@ const SequenceTrack = (HGC, ...args) => {
         text.position.x = txMiddle;
         text.position.y = tyMiddle;
 
+        this.addSVGInfoText(
+          tile,
+          txMiddle,
+          tyMiddle,
+          tile.texts[j].letter,
+          alphaSeq
+        );
+
         tile.textGraphics.addChild(text);
 
         if (this.options.barBorder) {
@@ -497,7 +495,7 @@ const SequenceTrack = (HGC, ...args) => {
      * @param tileWidth pre-scaled width of tile
      * @param tile
      */
-    drawVerticalBars(tileX, tileWidth, tile) {
+    drawColoredRectangles(tileX, tileWidth, tile) {
       const trackHeight = this.dimensions[1];
 
       const width = 10;
@@ -508,15 +506,7 @@ const SequenceTrack = (HGC, ...args) => {
         const x = j * width;
         const nucleotide = matrix[j];
 
-        this.addSVGInfo(
-          tile,
-          x,
-          0,
-          width,
-          trackHeight,
-          nucleotide.color,
-          tile.texts[j].letter
-        );
+        this.addSVGInfoRect(tile, x, 0, width, trackHeight, nucleotide.color);
 
         tile.tempGraphics.beginFill(this.colorHexMap[nucleotide.color]);
         tile.tempGraphics.drawRect(x, 0, width, trackHeight);
@@ -628,7 +618,7 @@ const SequenceTrack = (HGC, ...args) => {
     }
 
     /**
-     * Adds information to recreate the track in SVG to the tile
+     * Adds information to recreate the rectangles in SVG to the tile
      *
      * @param tile
      * @param x x value of bar
@@ -637,22 +627,44 @@ const SequenceTrack = (HGC, ...args) => {
      * @param height height of bar
      * @param color color of bar (not converted to hex)
      */
-    addSVGInfo(tile, x, y, width, height, color, letter) {
-      if (tile.hasOwnProperty("svgData") && tile.svgData !== null) {
-        tile.svgData.barXValues.push(x);
-        tile.svgData.barYValues.push(y);
-        tile.svgData.barWidths.push(width);
-        tile.svgData.barHeights.push(height);
-        tile.svgData.barColors.push(color);
-        tile.svgData.letter.push(letter);
+    addSVGInfoRect(tile, x, y, width, height, color) {
+      if (tile.hasOwnProperty("svgDataRect") && tile.svgDataRect !== null) {
+        tile.svgDataRect.barXValues.push(x);
+        tile.svgDataRect.barYValues.push(y);
+        tile.svgDataRect.barWidths.push(width);
+        tile.svgDataRect.barHeights.push(height);
+        tile.svgDataRect.barColors.push(color);
       } else {
-        tile.svgData = {
+        tile.svgDataRect = {
           barXValues: [x],
           barYValues: [y],
           barWidths: [width],
           barHeights: [height],
           barColors: [color],
+        };
+      }
+    }
+
+    /**
+     * Adds information to recreate the text in SVG to the tile
+     *
+     * @param tile
+     * @param x x value of text
+     * @param y y value of text
+     * @param letter the letter as string
+     */
+    addSVGInfoText(tile, x, y, letter, alpha) {
+      if (tile.hasOwnProperty("svgDataText") && tile.svgDataText !== null) {
+        tile.svgDataText.letterXValues.push(x);
+        tile.svgDataText.letterYValues.push(y);
+        tile.svgDataText.letter.push(letter);
+        tile.svgDataText.letterAlpha.push(alpha);
+      } else {
+        tile.svgDataText = {
+          letterXValues: [x],
+          letterYValues: [y],
           letter: [letter],
+          letterAlpha: [alpha],
         };
       }
     }
@@ -692,32 +704,55 @@ const SequenceTrack = (HGC, ...args) => {
         `translate(${this.pMain.position.x},${this.pMain.position.y}) scale(${this.pMain.scale.x},${this.pMain.scale.y})`
       );
 
-      // this.realignSVG();
+      if (
+        this.zoomLevel < this.maxZoom - 1 &&
+        this.options.colorAggregationMode === "none"
+      ) {
+        const rect = document.createElement("rect");
+        rect.setAttribute("fill", "#e0e0e0");
+        rect.setAttribute("stroke", "#e0e0e0");
+        rect.setAttribute("x", 0);
+        rect.setAttribute("y", 0);
+        rect.setAttribute("height", this.dimensions[1]);
+        rect.setAttribute("width", this.dimensions[0]);
+        output.appendChild(rect);
+
+        const t = document.createElement("text");
+        t.setAttribute("fill", "#33333");
+        t.setAttribute("x", this.dimensions[0] / 2);
+        t.setAttribute("y", this.dimensions[1] / 2 + 5);
+        t.setAttribute("text-anchor", "middle");
+        t.setAttribute("font-family", "Arial");
+        t.setAttribute("font-size", "14");
+        //t.setAttribute("width", 4);
+        //t.setAttribute("dy", 16);
+        t.innerHTML = this.options.notificationText;
+        output.appendChild(t);
+        return [base, base];
+      }
 
       for (const tile of this.visibleAndFetchedTiles()) {
-        const rotation = 0;
         const g = document.createElement("g");
-
         const sprite = tile.rectGraphics.children[0];
 
         // place each sprite
         g.setAttribute(
           "transform",
-          ` translate(${sprite.x},${sprite.y}) rotate(${rotation}) scale(${sprite.scale.x},${sprite.scale.y}) `
+          ` translate(${sprite.x},${sprite.y}) rotate(0) scale(${sprite.scale.x},${sprite.scale.y}) `
         );
 
-        const data = tile.svgData;
+        const rectData = tile.svgDataRect;
 
         // add each bar
-        for (let i = 0; i < data.barXValues.length; i++) {
+        for (let i = 0; i < rectData.barXValues.length; i++) {
           const rect = document.createElement("rect");
-          rect.setAttribute("fill", data.barColors[i]);
-          rect.setAttribute("stroke", data.barColors[i]);
+          rect.setAttribute("fill", rectData.barColors[i]);
+          rect.setAttribute("stroke", rectData.barColors[i]);
 
-          rect.setAttribute("x", data.barXValues[i]);
-          rect.setAttribute("y", data.barYValues[i]);
-          rect.setAttribute("height", data.barHeights[i]);
-          rect.setAttribute("width", data.barWidths[i]);
+          rect.setAttribute("x", rectData.barXValues[i]);
+          rect.setAttribute("y", rectData.barYValues[i]);
+          rect.setAttribute("height", rectData.barHeights[i]);
+          rect.setAttribute("width", rectData.barWidths[i]);
           if (this.options.barBorder) {
             rect.setAttribute("stroke-width", "0.1");
             rect.setAttribute("stroke", this.options.barBorderColor);
@@ -725,34 +760,54 @@ const SequenceTrack = (HGC, ...args) => {
 
           g.appendChild(rect);
         }
-
-        // add each text
-        for (let i = 0; i < data.barXValues.length; i++) {
-          const t = document.createElement("text");
-          t.setAttribute("fill", "#FFFFFF");
-          t.setAttribute("x", data.barXValues[i] + 5);
-          t.setAttribute("y", data.barYValues[i]);
-
-          t.innerHTML = data.letter[i];
-          t.setAttribute("id", "axis-text");
-          t.setAttribute("text-anchor", "middle");
-          t.setAttribute("font-family", "Arial");
-          t.setAttribute("font-size", "10");
-          t.setAttribute("width", 4);
-          t.setAttribute("dy", 16);
-
-          g.appendChild(t);
-        }
-
         output.appendChild(g);
+
+        if (tile.svgDataText !== null) {
+          const g2 = document.createElement("g");
+          const textData = tile.svgDataText;
+          // add each text
+          for (let i = 0; i < textData.letterXValues.length; i++) {
+            const t = document.createElement("text");
+            t.setAttribute("fill", "#FFFFFF");
+            t.setAttribute("fill-opacity", textData.letterAlpha[i]);
+            t.setAttribute("x", textData.letterXValues[i]);
+            t.setAttribute("y", textData.letterYValues[i] - 1);
+            t.setAttribute("font-family", "Arial");
+            t.setAttribute("font-size", "15");
+            t.setAttribute("font-weight", "bold");
+            t.setAttribute("width", 4);
+            t.setAttribute("dy", 16);
+
+            t.innerHTML = textData.letter[i];
+
+            g2.appendChild(t);
+          }
+
+          output.appendChild(g2);
+        }
       }
 
       return [base, base];
     }
 
-    draw() {
-      //super.draw();
-    }
+    /**
+     * Prevent BarTracks updateTile method from having an effect
+     *
+     * @param tile
+     */
+    updateTile() {}
+
+    /**
+     * Prevent BarTracks drawTile method from having an effect
+     *
+     * @param tile
+     */
+    drawTile(tile) {}
+
+    /**
+     * Prevent BarTracks draw method from having an effect
+     */
+    draw() {}
   }
   return new SequenceTrackClass(...args);
 };

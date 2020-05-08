@@ -28,7 +28,7 @@ module.exports = {
     watchContentBase: true,
   },
   optimization: {
-    minimize: true,
+    minimize: process.env.NODE_ENV === 'production' ? true : false,
     minimizer: [
       new TerserPlugin(),
       new OptimizeCssAssetsPlugin({})],
