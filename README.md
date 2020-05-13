@@ -1,6 +1,6 @@
 # Nucleotide sequence tracks for HiGlass
 
-Display nucleotide sequence tracks in HiGlass!
+Display nucleotide sequences in HiGlass!
 
 ![Sequence track](https://aveit.s3.amazonaws.com/higlass/static/higlass-sequence-screenshot.png)
 
