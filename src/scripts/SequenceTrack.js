@@ -1,5 +1,6 @@
 import { scaleLinear, scaleOrdinal, schemeCategory10 } from "d3-scale";
 import { color } from "d3-color";
+import FaiDataFetcher from "./FaiDataFetcher";
 
 const SequenceTrack = (HGC, ...args) => {
   if (!new.target) {
@@ -16,7 +17,13 @@ const SequenceTrack = (HGC, ...args) => {
 
   class SequenceTrackClass extends HGC.tracks.BarTrack {
     constructor(context, options) {
+      if (context.dataConfig.type === "fasta") {
+        context.dataFetcher = new FaiDataFetcher(context.dataConfig);
+      }
+
       super(context, options);
+
+      this.dataFetchingMode = context.dataConfig.type;
 
       this.updateOptions(this.options);
 
@@ -53,6 +60,11 @@ const SequenceTrack = (HGC, ...args) => {
 
     updateOptions(newOptions) {
       this.options = newOptions;
+
+      // We are ignoring aggregation modes for fasta files.
+      if (this.dataFetchingMode === "fasta") {
+        this.options.colorAggregationMode = "none";
+      }
 
       this.options.textOption = {
         fontSize: `${newOptions.fontSize * 2}px`,
@@ -130,7 +142,7 @@ const SequenceTrack = (HGC, ...args) => {
 
     /** cleanup */
     destroyTile(tile) {
-      // We just the tile to null.
+      // We just set the tile to null.
       // Destroying each graphics object lead to some artifacts.
       tile = null;
       // tile.initialized = false;
@@ -203,11 +215,6 @@ const SequenceTrack = (HGC, ...args) => {
 
       this.clearTileGraphics(tile);
 
-      // In extendedPreloading mode we might get a tile that we don't want to render
-      if (tile.zoomLevel !== this.zoomLevel) {
-        return;
-      }
-
       tile.svgDataRect = null;
       tile.svgDataText = null;
 
@@ -243,12 +250,13 @@ const SequenceTrack = (HGC, ...args) => {
      */
     unFlatten(tile) {
       if (tile.matrix) {
-        return tile.matrix;
+        return;
       }
 
-      tile.matrix = this.simpleUnFlatten(tile, tile.tileData.dense);
-
-      return tile.matrix;
+      tile.matrix =
+        this.dataFetchingMode === "fasta"
+          ? (tile.matrix = tile.tileData.dense)
+          : this.simpleUnFlatten(tile, tile.tileData.dense);
     }
 
     /**
@@ -540,6 +548,9 @@ const SequenceTrack = (HGC, ...args) => {
       this.zoomLevel = this.calculateZoomLevel();
 
       if (
+        // For fasta files maxZoom is equal to the hightest zoom level
+        // Therefore the notification is shown only two levels below highest zoom level
+        // We leave it like that intentionally for now.
         this.zoomLevel < this.maxZoom - 1 &&
         this.options.colorAggregationMode === "none"
       ) {
@@ -548,38 +559,30 @@ const SequenceTrack = (HGC, ...args) => {
       }
       this.hideNotification();
 
-      const sortedResolutions = this.tilesetInfo.resolutions
-        .map((x) => +x)
-        .sort((a, b) => b - a);
-
-      // We _could_ extend preloading to other zoomlLevel, but we are not doing that for now.
-      // let tiles = [];
-      // const zoomLevelStart = Math.max(this.zoomLevel-1,0);
-      // const zoomLevelEnd = Math.min(this.zoomLevel+1, this.maxZoom - 1);
-
-      // for(let l = zoomLevelStart; l <= zoomLevelEnd; l++){
-
-      //   const xTiles = this.calculateTilesFromResolution(
-      //     sortedResolutions[l],
-      //     this._xScale,
-      //     this.tilesetInfo.min_pos[0],
-      //     this.tilesetInfo.max_pos[0]
-      //   );
-      //   const curTiles = xTiles.map(x => [l, x]);
-      //   tiles = tiles.concat(curTiles);
-      // }
-
-      // this.setVisibleTiles(tiles);
-      // return;
+      let resolution = 1;
+      // We only have resolution when working with multivec files
+      if (this.tilesetInfo.resolutions) {
+        const sortedResolutions = this.tilesetInfo.resolutions
+          .map((x) => +x)
+          .sort((a, b) => b - a);
+        resolution = sortedResolutions[this.zoomLevel];
+      }
 
       const xTiles = this.calculateTilesFromResolution(
-        sortedResolutions[this.zoomLevel],
+        resolution,
         this._xScale,
         this.tilesetInfo.min_pos[0],
-        this.tilesetInfo.max_pos[0]
+        this.tilesetInfo.max_pos[0],
+        this.tilesetInfo.tile_size
       );
 
-      const tiles = xTiles.map((x) => [this.zoomLevel, x]);
+      // For FASTA files we fix the resolution, therefore we also fix the zoomLevel
+      // in the visible tiles
+      const tiles =
+        this.dataFetchingMode === "fasta"
+          ? xTiles.map((x) => [this.maxZoom, x])
+          : xTiles.map((x) => [this.zoomLevel, x]);
+
       this.setVisibleTiles(tiles);
       return;
     }
@@ -601,7 +604,8 @@ const SequenceTrack = (HGC, ...args) => {
         resolution,
         scale,
         minX,
-        maxX
+        maxX,
+        PIXELS_PER_TILE
       );
 
       if (this.options.extendedPreloading) {
@@ -813,7 +817,7 @@ const SequenceTrack = (HGC, ...args) => {
 };
 
 const icon =
-  '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 5640 5420" preserveAspectRatio="xMidYMid meet"> <g id="layer101" fill="#000000" stroke="none"> <path d="M0 2710 l0 -2710 2820 0 2820 0 0 2710 0 2710 -2820 0 -2820 0 0 -2710z"/> </g> <g id="layer102" fill="#750075" stroke="none"> <path d="M200 4480 l0 -740 630 0 630 0 0 740 0 740 -630 0 -630 0 0 -740z"/> <path d="M1660 4420 l0 -800 570 0 570 0 0 800 0 800 -570 0 -570 0 0 -800z"/> <path d="M3000 3450 l0 -1770 570 0 570 0 0 1770 0 1770 -570 0 -570 0 0 -1770z"/> <path d="M4340 2710 l0 -2510 560 0 560 0 0 2510 0 2510 -560 0 -560 0 0 -2510z"/> <path d="M200 1870 l0 -1670 630 0 630 0 0 1670 0 1670 -630 0 -630 0 0 -1670z"/> <path d="M1660 1810 l0 -1610 570 0 570 0 0 1610 0 1610 -570 0 -570 0 0 -1610z"/> <path d="M3000 840 l0 -640 570 0 570 0 0 640 0 640 -570 0 -570 0 0 -640z"/> </g> <g id="layer103" fill="#ffff04" stroke="none"> <path d="M200 4480 l0 -740 630 0 630 0 0 740 0 740 -630 0 -630 0 0 -740z"/> <path d="M1660 4420 l0 -800 570 0 570 0 0 800 0 800 -570 0 -570 0 0 -800z"/> <path d="M3000 3450 l0 -1770 570 0 570 0 0 1770 0 1770 -570 0 -570 0 0 -1770z"/> </g> </svg>';
+  '<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M-1-1h22v22H-1z"/><g><path stroke="#007fff" stroke-width="1.5" fill="#007fff" d="M-.667-.091h5v20.167h-5z"/><path stroke-width="1.5" stroke="#e8e500" fill="#e8e500" d="M5.667.242h5v20.167h-5z"/><path stroke-width="1.5" stroke="#ff0038" fill="#ff0038" d="M15.833.076h5v20.167h-5z"/><path stroke="green" stroke-width="1.5" fill="green" d="M10.833-.258H14.5v20.167h-3.667z"/></g></svg>';
 
 // default
 SequenceTrack.config = {

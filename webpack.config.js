@@ -9,8 +9,8 @@ const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 module.exports = {
   mode: "development",
   entry: {
-    'higlass-sequence': './src/index.js',
-    'higlass-sequence.min': './src/index.js'
+    'higlass-sequence': './src/index.js'
+    //'higlass-sequence.min': './src/index.js'
   },
   output: {
     filename: '[name].js',

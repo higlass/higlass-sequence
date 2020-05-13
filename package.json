@@ -43,8 +43,8 @@
     "webpack-dev-server": "^3.10.3",
     "fetch-mock": "^8.3.2",
     "karma-server-side": "^1.8.0",
-    "fs": "0.0.2",
-    "fs-extra": "^8.1.0"
+    "fs-extra": "^8.1.0",
+    "fs": "0.0.2"
   },
   "scripts": {
     "build-es": "rm -rf ./es/* && npx babel ./src/scripts/ --out-dir ./es/ --env-name esm",
@@ -81,6 +81,8 @@
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.4.2",
     "sourcemap": "^0.1.0",
-    "webpack": "^4.43.0"
+    "webpack": "^4.43.0",
+    "@gmod/indexedfasta": "1.0.13",
+    "generic-filehandle": "2.0.2"
   }
 }

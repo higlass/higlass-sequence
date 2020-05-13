@@ -57,11 +57,56 @@ And some other text
             "width": 20,
             "height": 30
           },
+          // {
+          //   "server": "http://localhost:8001/api/v1",
+          //   "tilesetUid": "ScrlBGMbR_WJ0fzKXxKFzA",
+          //   "uid": "multivecex",
+          //   "type": "horizontal-sequence",
+          //   "options": {
+          //     "colorAggregationMode": "max",
+          //     "labelPosition": "topLeft",
+          //     "labelColor": "black",
+          //     "labelTextOpacity": 0.4,
+          //     "valueScaling": "linear",
+          //     "trackBorderWidth": 0,
+          //     "trackBorderColor": "white",
+          //     "name": "hg38",
+          //     "backgroundColor": "white",
+          //     "barBorder": true,
+          //     "barBorderColor": "white",
+          //     "sortLargestOnTop": true,
+          //     "extendedPreloading": false,
+          //         // "colorScale": [ // A T G C N other
+          //         //   "#0000FF",
+          //         //   "#FFFFFF",
+          //         //   "#FFFFFF",
+          //         //   "#FF0000",
+          //         //   "#FFFFFF",
+          //         //   "#FFFFFF"
+          //         // ]
+          //     "colorScale": [ // A T G C N other
+          //       "#007FFF",
+          //       "#e8e500",
+          //       "#008000",
+          //       "#FF0038",
+          //       "#800080",
+          //       "#DCDCDC"
+          //     ]
+          //   },
+          //   "width": 568,
+          //   "height": 25
+          // },
           {
             "server": "http://localhost:8001/api/v1",
             "tilesetUid": "ScrlBGMbR_WJ0fzKXxKFzA",
-            "uid": "OF7Ya9o8RHKFgBi2jy62YA",
+            "uid": "fastaex",
             "type": "horizontal-sequence",
+            "data": {
+              "type": "fasta",
+              "fastaUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa",
+              "faiUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa.fai",
+              "chromSizesUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.mod.chrom.sizes"
+            },
             "options": {
               "colorAggregationMode": "none",
               "labelPosition": "topLeft",
