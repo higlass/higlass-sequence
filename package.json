@@ -1,6 +1,6 @@
 {
   "name": "higlass-sequence",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sequence tracks for HiGlass",
   "private": false,
   "author": "Alexander Veit",
@@ -12,7 +12,7 @@
     }
   ],
   "main": "./src/index.js",
-  "unpkg": "./dist/higlass-sequence.min.js",
+  "unpkg": "./dist/higlass-sequence.js",
   "module": "./es",
   "files": [
     "dist",

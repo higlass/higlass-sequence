@@ -22,14 +22,14 @@ npm install higlass-sequence
 
 The live script can be found at:
 
-- https://unpkg.com/higlass-sequence/dist/higlass-sequence.min.js
+- https://unpkg.com/higlass-sequence/dist/higlass-sequence.js
 
 ### Client
 
 1. Make sure you load this track prior to `hglib.js`. For example:
 
 ```
-<script src="/higlass-sequence.min.js"></script>
+<script src="/higlass-sequence.js"></script>
 <script src="hglib.js"></script>
 <script>
   ...
