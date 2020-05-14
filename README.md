@@ -74,8 +74,7 @@ The live script can be found at:
 
 For an example, see [`src/index.html`](src/index.html).
 
-3. Options
-The following options are available:
+3. The following options are available:
 ```
 {
    "colorAggregationMode": "none", // ['none', 'max', 'weighted']. Ignored when using indexed FASTA files. Determines how pixels are colored on lower zoom levels. 'max' colors the pixels according to the nucleotide with the highest occurence. 'weighted' uses a weighted interpolation of colors.
