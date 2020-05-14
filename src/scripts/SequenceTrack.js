@@ -836,8 +836,6 @@ SequenceTrack.config = {
     "notificationText",
     "trackBorderWidth",
     "trackBorderColor",
-    "trackType",
-    "scaledHeight",
     "backgroundColor",
     "colorScale",
     "barBorder",
