@@ -12,6 +12,7 @@ class FaiDataFetcher {
     this.chromInfo = null;
 
     this.chromsizePromise = fetch(dataConfig.chromSizesUrl, {
+      cache: "force-cache",
       method: "GET",
     })
       .then((response) => response.text())
