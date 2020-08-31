@@ -470,7 +470,7 @@ const SequenceTrack = (HGC, ...args) => {
         const x = j * width;
 
         const text = tile.texts[j];
-        const txStart = this._xScale(tileX) + x;
+        const txStart = this._xScale(tileX +  1) + x ;
         const txMiddle = txStart + width / 2 - text.width / 2;
         const tyMiddle = this.dimensions[1] / 2 - text.height / 2;
 
@@ -529,7 +529,7 @@ const SequenceTrack = (HGC, ...args) => {
       const sprite = new HGC.libraries.PIXI.Sprite(texture);
       sprite.width = this._xScale(tileX + tileWidth) - this._xScale(tileX);
       sprite.height = trackHeight;
-      sprite.x = this._xScale(tileX);
+      sprite.x = this._xScale(tileX +  1);
       sprite.y = 0;
       //tile.sprite = sprite;
 
