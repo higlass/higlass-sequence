@@ -1,7 +1,6 @@
 **v0.3.0**
 
-- Custom color schemes
-- Customizeable zoom out
+- More color schemes
 
 **v0.2.0**
 
