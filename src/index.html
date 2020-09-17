@@ -20,7 +20,7 @@
 Higlass sequence track
 <div style=""></div>
 <div style="margin: auto">
-  <div style="height: 1500px; width: 800px; border: 1px solid black;"
+  <div style="height: 1500px; width: 600px; border: 1px solid black;"
        id="development-demo">
   </div>
 </div>
@@ -30,7 +30,7 @@ And some other text
 <script src="hglib.js"></script>
 <script>
   var viewConfig =
-  {
+{
   "editable": true,
   "zoomFixed": false,
   "trackSourceServers": [
@@ -57,47 +57,74 @@ And some other text
             "width": 20,
             "height": 30
           },
-          // {
-          //   "server": "http://localhost:8001/api/v1",
-          //   "tilesetUid": "ScrlBGMbR_WJ0fzKXxKFzA",
-          //   "uid": "multivecex",
-          //   "type": "horizontal-sequence",
-          //   "options": {
-          //     "colorAggregationMode": "max",
-          //     "labelPosition": "topLeft",
-          //     "labelColor": "black",
-          //     "labelTextOpacity": 0.4,
-          //     "valueScaling": "linear",
-          //     "trackBorderWidth": 0,
-          //     "trackBorderColor": "white",
-          //     "name": "hg38",
-          //     "backgroundColor": "white",
-          //     "barBorder": true,
-          //     "barBorderColor": "white",
-          //     "sortLargestOnTop": true,
-          //     "extendedPreloading": false,
-          //         // "colorScale": [ // A T G C N other
-          //         //   "#0000FF",
-          //         //   "#FFFFFF",
-          //         //   "#FFFFFF",
-          //         //   "#FF0000",
-          //         //   "#FFFFFF",
-          //         //   "#FFFFFF"
-          //         // ]
-          //     "colorScale": [ // A T G C N other
-          //       "#007FFF",
-          //       "#e8e500",
-          //       "#008000",
-          //       "#FF0038",
-          //       "#800080",
-          //       "#DCDCDC"
-          //     ]
-          //   },
-          //   "width": 568,
-          //   "height": 25
-          // },
           {
-            "uid": "fastaex",
+            "type": "combined",
+            "uid": "FkGY-Yv9T8avNXljXklukw",
+            "height": 25,
+            "width": 568,
+            "contents": [
+              {
+                "uid": "fastaex",
+                "type": "horizontal-sequence",
+                "data": {
+                  "type": "fasta",
+                  "fastaUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa",
+                  "faiUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa.fai",
+                  "chromSizesUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.mod.chrom.sizes"
+                },
+                "options": {
+                  "colorAggregationMode": "none",
+                  "labelPosition": "topLeft",
+                  "labelColor": "black",
+                  "labelTextOpacity": 0.4,
+                  "valueScaling": "linear",
+                  "trackBorderWidth": 0,
+                  "trackBorderColor": "white",
+                  "name": "hg38",
+                  "backgroundColor": "white",
+                  "barBorder": true,
+                  "barBorderColor": "white",
+                  "sortLargestOnTop": true,
+                  "extendedPreloading": false,
+                  "colorScale": [
+                    "#007FFF",
+                    "#e8e500",
+                    "#008000",
+                    "#FF0038",
+                    "#800080",
+                    "#DCDCDC"
+                  ],
+                  "notificationText": "Zoom in to see nucleotides...",
+                  "fontSize": 16,
+                  "fontFamily": "Arial",
+                  "fontColor": "white",
+                  "textOption": {
+                    "fontSize": "32px",
+                    "fontFamily": "Arial",
+                    "fill": 16777215,
+                    "fontWeight": "bold"
+                  }
+                },
+                "width": 568,
+                "height": 25
+              },
+              {
+                "uid": "d6KeVfkNSmq_YNj_rWJgBA",
+                "type": "viewport-projection-horizontal",
+                "fromViewUid": "JaUMrYu4TkeP9RVS5QmpYg",
+                "options": {
+                  "projectionFillColor": "#777",
+                  "projectionStrokeColor": "#777",
+                  "projectionFillOpacity": 0.3,
+                  "projectionStrokeOpacity": 0.7,
+                  "strokeWidth": 1
+                }
+              }
+            ],
+            "options": {}
+          },
+          {
+            "uid": "fastaex1",
             "type": "horizontal-sequence",
             "data": {
               "type": "fasta",
@@ -119,14 +146,114 @@ And some other text
               "barBorderColor": "white",
               "sortLargestOnTop": true,
               "extendedPreloading": false,
-              "colorScale": [ // A T G C N other
-                "#007FFF",
-                "#e8e500",
-                "#008000",
-                "#FF0038",
-                "#800080",
+              "colorScale": [
+                "#22ca03",
+                "#c40003",
+                "#f6af08",
+                "#0000c7",
+                "#808080",
                 "#DCDCDC"
-              ]
+              ],
+              "notificationText": "Zoom in to see nucleotides...",
+              "fontSize": 16,
+              "fontFamily": "Arial",
+              "fontColor": "white",
+              "textOption": {
+                "fontSize": "32px",
+                "fontFamily": "Arial",
+                "fill": 16777215,
+                "fontWeight": "bold"
+              }
+            },
+            "width": 568,
+            "height": 25
+          },
+          {
+            "uid": "fastaex2",
+            "type": "horizontal-sequence",
+            "data": {
+              "type": "fasta",
+              "fastaUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa",
+              "faiUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa.fai",
+              "chromSizesUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.mod.chrom.sizes"
+            },
+            "options": {
+              "colorAggregationMode": "none",
+              "labelPosition": "topLeft",
+              "labelColor": "black",
+              "labelTextOpacity": 0.4,
+              "valueScaling": "linear",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "white",
+              "name": "hg38",
+              "backgroundColor": "white",
+              "barBorder": true,
+              "barBorderColor": "white",
+              "sortLargestOnTop": true,
+              "extendedPreloading": false,
+              "colorScale": [
+                "#a6cee3",
+                "#1f78b4",
+                "#b2df8a",
+                "#33a02c",
+                "#808080",
+                "#DCDCDC"
+              ],
+              "notificationText": "Zoom in to see nucleotides...",
+              "fontSize": 16,
+              "fontFamily": "Arial",
+              "fontColor": "white",
+              "textOption": {
+                "fontSize": "32px",
+                "fontFamily": "Arial",
+                "fill": 16777215,
+                "fontWeight": "bold"
+              }
+            },
+            "width": 568,
+            "height": 25
+          },
+          {
+            "uid": "fastaex3",
+            "type": "horizontal-sequence",
+            "data": {
+              "type": "fasta",
+              "fastaUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa",
+              "faiUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa.fai",
+              "chromSizesUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.mod.chrom.sizes"
+            },
+            "options": {
+              "colorAggregationMode": "none",
+              "labelPosition": "topLeft",
+              "labelColor": "black",
+              "labelTextOpacity": 0.4,
+              "valueScaling": "linear",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "white",
+              "name": "hg38",
+              "backgroundColor": "white",
+              "barBorder": true,
+              "barBorderColor": "white",
+              "sortLargestOnTop": true,
+              "extendedPreloading": false,
+              "colorScale": [
+                "#2c7bb6",
+                "#abd9e9",
+                "#ffffbf",
+                "#fdae61",
+                "#808080",
+                "#DCDCDC"
+              ],
+              "notificationText": "Zoom in to see nucleotides...",
+              "fontSize": 16,
+              "fontFamily": "Arial",
+              "fontColor": "white",
+              "textOption": {
+                "fontSize": "32px",
+                "fontFamily": "Arial",
+                "fill": 16777215,
+                "fontWeight": "bold"
+              }
             },
             "width": 568,
             "height": 25
@@ -155,22 +282,262 @@ And some other text
         "gallery": []
       },
       "initialXDomain": [
-        -2,
-        3
+        1080250.0490099243,
+        1081419.7532662181
       ],
       "initialYDomain": [
-        -2681066463.2605443,
-        -2681066462.780524
+        -2681119167.5682316,
+        -2681119130.5001388
       ],
       "layout": {
         "w": 12,
-        "h": 6,
+        "h": 10,
         "x": 0,
         "y": 0,
         "moved": false,
         "static": false
       },
       "uid": "AD_rIRKzRQKx3N8rbT9G4w"
+    },
+    {
+      "tracks": {
+        "top": [
+          {
+            "server": "http://higlass.io/api/v1",
+            "tilesetUid": "NyITQvZsS_mOFNlz5C2LJg",
+            "uid": "Lb1oLu6rSiaIFcdrouucQg",
+            "type": "horizontal-chromosome-labels",
+            "options": {
+              "color": "#808080",
+              "stroke": "#ffffff",
+              "fontSize": 12,
+              "fontIsLeftAligned": false,
+              "showMousePosition": false,
+              "mousePositionColor": "#000000"
+            },
+            "width": 20,
+            "height": 30
+          },
+          {
+            "uid": "fastaex",
+            "type": "horizontal-sequence",
+            "data": {
+              "type": "fasta",
+              "fastaUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa",
+              "faiUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa.fai",
+              "chromSizesUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.mod.chrom.sizes"
+            },
+            "options": {
+              "colorAggregationMode": "none",
+              "labelPosition": "topLeft",
+              "labelColor": "black",
+              "labelTextOpacity": 0.4,
+              "valueScaling": "linear",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "white",
+              "name": "hg38",
+              "backgroundColor": "white",
+              "barBorder": true,
+              "barBorderColor": "white",
+              "sortLargestOnTop": true,
+              "extendedPreloading": false,
+              "colorScale": [
+                "#007FFF",
+                "#e8e500",
+                "#008000",
+                "#FF0038",
+                "#800080",
+                "#DCDCDC"
+              ],
+              "notificationText": "Zoom in to see nucleotides...",
+              "fontSize": 16,
+              "fontFamily": "Arial",
+              "fontColor": "white",
+              "textOption": {
+                "fontSize": "32px",
+                "fontFamily": "Arial",
+                "fill": 16777215,
+                "fontWeight": "bold"
+              }
+            },
+            "width": 568,
+            "height": 25
+          },
+          {
+            "uid": "fastaex1",
+            "type": "horizontal-sequence",
+            "data": {
+              "type": "fasta",
+              "fastaUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa",
+              "faiUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa.fai",
+              "chromSizesUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.mod.chrom.sizes"
+            },
+            "options": {
+              "colorAggregationMode": "none",
+              "labelPosition": "topLeft",
+              "labelColor": "black",
+              "labelTextOpacity": 0.4,
+              "valueScaling": "linear",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "white",
+              "name": "hg38",
+              "backgroundColor": "white",
+              "barBorder": true,
+              "barBorderColor": "white",
+              "sortLargestOnTop": true,
+              "extendedPreloading": false,
+              "colorScale": [
+                "#22ca03",
+                "#c40003",
+                "#f6af08",
+                "#0000c7",
+                "#808080",
+                "#DCDCDC"
+              ],
+              "notificationText": "Zoom in to see nucleotides...",
+              "fontSize": 16,
+              "fontFamily": "Arial",
+              "fontColor": "white",
+              "textOption": {
+                "fontSize": "32px",
+                "fontFamily": "Arial",
+                "fill": 16777215,
+                "fontWeight": "bold"
+              }
+            },
+            "width": 568,
+            "height": 25
+          },
+          {
+            "uid": "fastaex2",
+            "type": "horizontal-sequence",
+            "data": {
+              "type": "fasta",
+              "fastaUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa",
+              "faiUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa.fai",
+              "chromSizesUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.mod.chrom.sizes"
+            },
+            "options": {
+              "colorAggregationMode": "none",
+              "labelPosition": "topLeft",
+              "labelColor": "black",
+              "labelTextOpacity": 0.4,
+              "valueScaling": "linear",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "white",
+              "name": "hg38",
+              "backgroundColor": "white",
+              "barBorder": true,
+              "barBorderColor": "white",
+              "sortLargestOnTop": true,
+              "extendedPreloading": false,
+              "colorScale": [
+                "#a6cee3",
+                "#1f78b4",
+                "#b2df8a",
+                "#33a02c",
+                "#808080",
+                "#DCDCDC"
+              ],
+              "notificationText": "Zoom in to see nucleotides...",
+              "fontSize": 16,
+              "fontFamily": "Arial",
+              "fontColor": "white",
+              "textOption": {
+                "fontSize": "32px",
+                "fontFamily": "Arial",
+                "fill": 16777215,
+                "fontWeight": "bold"
+              }
+            },
+            "width": 568,
+            "height": 25
+          },
+          {
+            "uid": "fastaex3",
+            "type": "horizontal-sequence",
+            "data": {
+              "type": "fasta",
+              "fastaUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa",
+              "faiUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa.fai",
+              "chromSizesUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.mod.chrom.sizes"
+            },
+            "options": {
+              "colorAggregationMode": "none",
+              "labelPosition": "topLeft",
+              "labelColor": "black",
+              "labelTextOpacity": 0.4,
+              "valueScaling": "linear",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "white",
+              "name": "hg38",
+              "backgroundColor": "white",
+              "barBorder": true,
+              "barBorderColor": "white",
+              "sortLargestOnTop": true,
+              "extendedPreloading": false,
+              "colorScale": [
+                "#2c7bb6",
+                "#abd9e9",
+                "#ffffbf",
+                "#fdae61",
+                "#808080",
+                "#DCDCDC"
+              ],
+              "notificationText": "Zoom in to see nucleotides...",
+              "fontSize": 16,
+              "fontFamily": "Arial",
+              "fontColor": "white",
+              "textOption": {
+                "fontSize": "32px",
+                "fontFamily": "Arial",
+                "fill": 16777215,
+                "fontWeight": "bold"
+              }
+            },
+            "width": 568,
+            "height": 25
+          },
+          {
+            "server": "http://higlass.io/api/v1",
+            "uid": "emptytrack",
+            "type": "empty",
+            "options": {
+              "color": "#808080",
+              "stroke": "#ffffff",
+              "fontSize": 14,
+              "fontIsLeftAligned": false,
+              "showMousePosition": false,
+              "mousePositionColor": "#000000"
+            },
+            "width": 568,
+            "height": 200
+          }
+        ],
+        "left": [],
+        "center": [],
+        "right": [],
+        "bottom": [],
+        "whole": [],
+        "gallery": []
+      },
+      "initialXDomain": [
+        1080874.4140677315,
+        1080894.7455448946
+      ],
+      "initialYDomain": [
+        -2681120232.5512576,
+        -2681120231.90695
+      ],
+      "layout": {
+        "w": 12,
+        "h": 10,
+        "x": 0,
+        "y": 10,
+        "moved": false,
+        "static": false
+      },
+      "uid": "JaUMrYu4TkeP9RVS5QmpYg"
     }
   ],
   "zoomLocks": {
