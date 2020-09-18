@@ -864,13 +864,13 @@ SequenceTrack.config = {
     fontColor: "white",
     colorScale: [
       // A T G C N other
-      "#007FFF",
-      "#e8e500",
-      "#008000",
-      "#FF0038",
-      "#800080",
+      "#2c7bb6",
+      "#abd9e9",
+      "#ffffbf",
+      "#fdae61",
+      "#808080",
       "#DCDCDC",
-    ],
+    ]
   },
     optionsInfo: {
     colorScale: {
@@ -886,7 +886,7 @@ SequenceTrack.config = {
               "#800080",
               "#DCDCDC",
             ],
-          name: 'Default',
+          name: 'DRuMS',
         },
         logos: {
           value: [
