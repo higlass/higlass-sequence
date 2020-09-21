@@ -1,19 +1,19 @@
-import slugid from "slugid";
-import { RemoteFile } from "generic-filehandle";
-import { tsvParseRows } from "d3-dsv";
+import slugid from 'slugid';
+import { RemoteFile } from 'generic-filehandle';
+import { tsvParseRows } from 'd3-dsv';
 
 class FaiDataFetcher {
   constructor(dataConfig) {
     this.dataConfig = dataConfig;
     this.trackUid = slugid.nice();
 
-    const { IndexedFasta } = require("@gmod/indexedfasta");
+    const { IndexedFasta } = require('@gmod/indexedfasta');
 
     this.chromInfo = null;
 
     this.chromsizePromise = fetch(dataConfig.chromSizesUrl, {
-      cache: "force-cache",
-      method: "GET",
+      cache: 'force-cache',
+      method: 'GET',
     })
       .then((response) => response.text())
       .then((chrInfoText) => {
@@ -39,7 +39,7 @@ class FaiDataFetcher {
         const TILE_SIZE = 1024;
         const totalLenth = this.chromInfo.totalLength;
         const maxZoom = Math.ceil(
-          Math.log(totalLenth / TILE_SIZE) / Math.log(2)
+          Math.log(totalLenth / TILE_SIZE) / Math.log(2),
         );
 
         let retVal = {};
@@ -67,7 +67,7 @@ class FaiDataFetcher {
             error: `Error parsing chromsizes: ${err}`,
           });
         } else {
-          console.error("Could not fetch tileInfo for sequence track.");
+          console.error('Could not fetch tileInfo for sequence track.');
         }
       });
   }
@@ -80,12 +80,12 @@ class FaiDataFetcher {
     const tilePromises = [];
 
     for (const tileId of tileIds) {
-      const parts = tileId.split(".");
+      const parts = tileId.split('.');
       const z = parseInt(parts[0], 10);
       const x = parseInt(parts[1], 10);
 
       if (Number.isNaN(x) || Number.isNaN(z)) {
-        console.warn("Invalid tile zoom or position:", z, x);
+        console.warn('Invalid tile zoom or position:', z, x);
         continue;
       }
       zoomLevels.push(z);
@@ -138,11 +138,11 @@ class FaiDataFetcher {
                 .getSequence(
                   chromName,
                   minX - chromStart,
-                  chromEnd - chromStart
+                  chromEnd - chromStart,
                 )
                 .then((value) => {
                   return value;
-                })
+                }),
             );
 
             // continue onto the next chromosome
@@ -156,7 +156,7 @@ class FaiDataFetcher {
                 .getSequence(chromName, startPos, endPos)
                 .then((value) => {
                   return value;
-                })
+                }),
             );
 
             // end the loop because we've retrieved the last chromosome
@@ -166,7 +166,7 @@ class FaiDataFetcher {
       }
 
       return Promise.all(recordPromises).then((values) => {
-        const allBases = values.join("");
+        const allBases = values.join('');
         return this.convertBasesToMultivec(allBases);
       });
     });
@@ -176,15 +176,15 @@ class FaiDataFetcher {
     const res = [];
 
     [...str].forEach((c) => {
-      if (c === "A" || c === "a") {
+      if (c === 'A' || c === 'a') {
         res.push([1, 0, 0, 0, 0, 0]);
-      } else if (c === "T" || c === "t") {
+      } else if (c === 'T' || c === 't') {
         res.push([0, 1, 0, 0, 0, 0]);
-      } else if (c === "G" || c === "g") {
+      } else if (c === 'G' || c === 'g') {
         res.push([0, 0, 1, 0, 0, 0]);
-      } else if (c === "C" || c === "c") {
+      } else if (c === 'C' || c === 'c') {
         res.push([0, 0, 0, 1, 0, 0]);
-      } else if (c === "N" || c === "n") {
+      } else if (c === 'N' || c === 'n') {
         res.push([0, 0, 0, 0, 1, 0]);
       } else {
         res.push([0, 0, 0, 0, 0, 1]);

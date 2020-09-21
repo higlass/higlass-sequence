@@ -1,11 +1,11 @@
-import { scaleLinear, scaleOrdinal, schemeCategory10 } from "d3-scale";
-import { color } from "d3-color";
-import FaiDataFetcher from "./FaiDataFetcher";
+import { scaleLinear, scaleOrdinal, schemeCategory10 } from 'd3-scale';
+import { color } from 'd3-color';
+import FaiDataFetcher from './FaiDataFetcher';
 
 const SequenceTrack = (HGC, ...args) => {
   if (!new.target) {
     throw new Error(
-      'Uncaught TypeError: Class constructor cannot be invoked without "new"'
+      'Uncaught TypeError: Class constructor cannot be invoked without "new"',
     );
   }
 
@@ -17,7 +17,7 @@ const SequenceTrack = (HGC, ...args) => {
 
   class SequenceTrackClass extends HGC.tracks.BarTrack {
     constructor(context, options) {
-      if (context.dataConfig.type === "fasta") {
+      if (context.dataConfig.type === 'fasta') {
         context.dataFetcher = new FaiDataFetcher(context.dataConfig);
       }
 
@@ -30,7 +30,7 @@ const SequenceTrack = (HGC, ...args) => {
 
     setPixiTexts() {
       this.pixiTexts = [];
-      const letters = ["A", "T", "G", "C", "N", " "];
+      const letters = ['A', 'T', 'G', 'C', 'N', ' '];
       this.letterWidths = [];
       this.letterHeights = [];
       this.maxLetterWidth = 0;
@@ -40,7 +40,7 @@ const SequenceTrack = (HGC, ...args) => {
       letters.forEach((letter) => {
         this.pixiTexts[letter] = new HGC.libraries.PIXI.Text(
           letter,
-          this.options.textOption
+          this.options.textOption,
         );
         this.pixiTexts[letter].updateText();
         // We get sharper edges if we scale down a large letter
@@ -50,11 +50,11 @@ const SequenceTrack = (HGC, ...args) => {
           this.pixiTexts[letter].getBounds().height / 2;
         this.maxLetterWidth = Math.max(
           this.letterWidths[letter],
-          this.maxLetterWidth
+          this.maxLetterWidth,
         );
         this.maxLetterHeight = Math.max(
           this.letterHeights[letter],
-          this.maxLetterHeight
+          this.maxLetterHeight,
         );
         this.pixiTexts[letter] = this.pixiTexts[letter].texture;
       });
@@ -64,24 +64,24 @@ const SequenceTrack = (HGC, ...args) => {
       this.options = newOptions;
 
       // We are ignoring aggregation modes for fasta files.
-      if (this.dataFetchingMode === "fasta") {
-        this.options.colorAggregationMode = "none";
+      if (this.dataFetchingMode === 'fasta') {
+        this.options.colorAggregationMode = 'none';
       }
 
       this.options.textOption = {
         fontSize: `${newOptions.fontSize * 2}px`,
         fontFamily: newOptions.fontFamily,
         fill: colorToHex(newOptions.fontColor),
-        fontWeight: "bold",
+        fontWeight: 'bold',
       };
 
       this.notificationText = new HGC.libraries.PIXI.Text(
         newOptions.notificationText,
         {
-          fontSize: "13px",
-          fontFamily: "Arial",
+          fontSize: '13px',
+          fontFamily: 'Arial',
           fill: 0x333333,
-        }
+        },
       );
       this.notificationText.anchor.x = 0.5;
       this.notificationText.anchor.y = 0.5;
@@ -103,14 +103,14 @@ const SequenceTrack = (HGC, ...args) => {
       tile.textGraphics = new HGC.libraries.PIXI.Graphics();
       tile.rectGraphics = new HGC.libraries.PIXI.Graphics();
       tile.borderGraphics = new HGC.libraries.PIXI.Graphics();
-      tile.tempGraphics =   new HGC.libraries.PIXI.Graphics();
+      tile.tempGraphics = new HGC.libraries.PIXI.Graphics();
 
       tile.graphics.addChild(tile.rectGraphics);
       tile.graphics.addChild(tile.textGraphics);
       tile.graphics.addChild(tile.borderGraphics);
 
       // stores which zoomLevel the tile belongs to. Needed for extendedPreloading
-      tile.zoomLevel = parseInt(tile.tileId.split(".")[0], 10);
+      tile.zoomLevel = parseInt(tile.tileId.split('.')[0], 10);
 
       tile.initialized = true;
 
@@ -182,7 +182,7 @@ const SequenceTrack = (HGC, ...args) => {
         this.position[0],
         this.position[1],
         this.dimensions[0],
-        this.dimensions[1]
+        this.dimensions[1],
       );
       graphics.addChild(this.notificationText);
     }
@@ -218,7 +218,7 @@ const SequenceTrack = (HGC, ...args) => {
       const { tileX, tileWidth } = this.getTilePosAndDimensions(
         tile.tileData.zoomLevel,
         tile.tileData.tilePos,
-        this.tilesetInfo.tile_size
+        this.tilesetInfo.tile_size,
       );
 
       this.drawColoredRectangles(tileX, tileWidth, tile);
@@ -248,7 +248,7 @@ const SequenceTrack = (HGC, ...args) => {
       }
 
       tile.matrix =
-        this.dataFetchingMode === "fasta"
+        this.dataFetchingMode === 'fasta'
           ? (tile.matrix = tile.tileData.dense)
           : this.simpleUnFlatten(tile, tile.tileData.dense);
     }
@@ -298,17 +298,17 @@ const SequenceTrack = (HGC, ...args) => {
      */
     getLetterFromArray(indexOfOne) {
       if (indexOfOne === 0) {
-        return "A";
+        return 'A';
       } else if (indexOfOne === 1) {
-        return "T";
+        return 'T';
       } else if (indexOfOne === 2) {
-        return "G";
+        return 'G';
       } else if (indexOfOne === 3) {
-        return "C";
+        return 'C';
       } else if (indexOfOne === 4) {
-        return "N";
+        return 'N';
       } else {
-        return ".";
+        return '.';
       }
     }
 
@@ -320,7 +320,7 @@ const SequenceTrack = (HGC, ...args) => {
      */
     createColorAndLetterData(tile) {
       if (!tile.matrix) {
-        console.warn("Data has not been transformed to a matrix yet");
+        console.warn('Data has not been transformed to a matrix yet');
         return;
       }
 
@@ -339,13 +339,13 @@ const SequenceTrack = (HGC, ...args) => {
             letter: this.getLetterFromArray(ind),
             color: this.colorScale[ind],
           };
-        } else if (this.options.colorAggregationMode === "max") {
+        } else if (this.options.colorAggregationMode === 'max') {
           const max = Math.max.apply(null, matrix[j]);
           // produces an array that has 1 if the entry is maximal, 0 otherwise
           const relevantEntries = matrix[j].map((x) => (x === max ? 1 : 0));
           const sumRelevantEntries = relevantEntries.reduce(
             (pv, cv) => pv + cv,
-            0
+            0,
           );
 
           if (sumRelevantEntries === 1) {
@@ -370,7 +370,7 @@ const SequenceTrack = (HGC, ...args) => {
               color: this.colorScale[ind],
             };
           }
-        } else if (this.options.colorAggregationMode === "weighted") {
+        } else if (this.options.colorAggregationMode === 'weighted') {
           const weigths = matrix[j].map((el) => el / sum);
 
           const interpolatedColor = {};
@@ -378,7 +378,7 @@ const SequenceTrack = (HGC, ...args) => {
           interpolatedColor.r = this.colorScaleRgb.reduce(function (
             res,
             cv,
-            ind
+            ind,
           ) {
             return res + weigths[ind] * cv.r;
           },
@@ -387,7 +387,7 @@ const SequenceTrack = (HGC, ...args) => {
           interpolatedColor.g = this.colorScaleRgb.reduce(function (
             res,
             cv,
-            ind
+            ind,
           ) {
             return res + weigths[ind] * cv.g;
           },
@@ -396,7 +396,7 @@ const SequenceTrack = (HGC, ...args) => {
           interpolatedColor.b = this.colorScaleRgb.reduce(function (
             res,
             cv,
-            ind
+            ind,
           ) {
             return res + weigths[ind] * cv.b;
           },
@@ -473,7 +473,7 @@ const SequenceTrack = (HGC, ...args) => {
         const x = j * width;
 
         const text = tile.texts[j];
-        const txStart = this._xScale(tileX +  1) + x ;
+        const txStart = this._xScale(tileX + 1) + x;
         const txMiddle = txStart + width / 2 - text.width / 2;
         const tyMiddle = this.dimensions[1] / 2 - text.height / 2;
 
@@ -485,7 +485,7 @@ const SequenceTrack = (HGC, ...args) => {
           txMiddle,
           tyMiddle,
           tile.texts[j].letter,
-          alphaSeq
+          alphaSeq,
         );
 
         tile.textGraphics.addChild(text);
@@ -527,12 +527,12 @@ const SequenceTrack = (HGC, ...args) => {
       // and a texture is generated from that
       const texture = pixiRenderer.generateTexture(
         tile.tempGraphics,
-        HGC.libraries.PIXI.SCALE_MODES.NEAREST
+        HGC.libraries.PIXI.SCALE_MODES.NEAREST,
       );
       const sprite = new HGC.libraries.PIXI.Sprite(texture);
       sprite.width = this._xScale(tileX + tileWidth) - this._xScale(tileX);
       sprite.height = trackHeight;
-      sprite.x = this._xScale(tileX +  1);
+      sprite.x = this._xScale(tileX + 1);
       sprite.y = 0;
       //tile.sprite = sprite;
 
@@ -555,7 +555,7 @@ const SequenceTrack = (HGC, ...args) => {
         // Therefore the notification is shown only two levels below highest zoom level
         // We leave it like that intentionally for now.
         this.zoomLevel < this.maxZoom - 3 &&
-        this.options.colorAggregationMode === "none"
+        this.options.colorAggregationMode === 'none'
       ) {
         this.showNotification();
         return;
@@ -576,13 +576,13 @@ const SequenceTrack = (HGC, ...args) => {
         this._xScale,
         this.tilesetInfo.min_pos[0],
         this.tilesetInfo.max_pos[0],
-        this.tilesetInfo.tile_size
+        this.tilesetInfo.tile_size,
       );
 
       // For FASTA files we fix the resolution, therefore we also fix the zoomLevel
       // in the visible tiles
       const tiles =
-        this.dataFetchingMode === "fasta"
+        this.dataFetchingMode === 'fasta'
           ? xTiles.map((x) => [this.maxZoom, x])
           : xTiles.map((x) => [this.zoomLevel, x]);
 
@@ -608,14 +608,14 @@ const SequenceTrack = (HGC, ...args) => {
         scale,
         minX,
         maxX,
-        PIXELS_PER_TILE
+        PIXELS_PER_TILE,
       );
 
       if (this.options.extendedPreloading) {
         const firstTile = Math.max(Math.min.apply(null, tileRange) - 1, 0);
         const lastTile = Math.min(
           Math.max.apply(null, tileRange) + 1,
-          Math.ceil(maxX / tileWidth)
+          Math.ceil(maxX / tileWidth),
         );
         tileRange.push(firstTile);
         tileRange.push(lastTile);
@@ -635,7 +635,7 @@ const SequenceTrack = (HGC, ...args) => {
      * @param color color of bar (not converted to hex)
      */
     addSVGInfoRect(tile, x, y, width, height, color) {
-      if (tile.hasOwnProperty("svgDataRect") && tile.svgDataRect !== null) {
+      if (tile.hasOwnProperty('svgDataRect') && tile.svgDataRect !== null) {
         tile.svgDataRect.barXValues.push(x);
         tile.svgDataRect.barYValues.push(y);
         tile.svgDataRect.barWidths.push(width);
@@ -661,7 +661,7 @@ const SequenceTrack = (HGC, ...args) => {
      * @param letter the letter as string
      */
     addSVGInfoText(tile, x, y, letter, alpha) {
-      if (tile.hasOwnProperty("svgDataText") && tile.svgDataText !== null) {
+      if (tile.hasOwnProperty('svgDataText') && tile.svgDataText !== null) {
         tile.svgDataText.letterXValues.push(x);
         tile.svgDataText.letterYValues.push(y);
         tile.svgDataText.letter.push(letter);
@@ -698,39 +698,39 @@ const SequenceTrack = (HGC, ...args) => {
       let track = null;
       let base = null;
 
-      base = document.createElement("g");
+      base = document.createElement('g');
       track = base;
 
       [base, track] = super.superSVG();
 
-      const output = document.createElement("g");
+      const output = document.createElement('g');
       track.appendChild(output);
 
       output.setAttribute(
-        "transform",
-        `translate(${this.pMain.position.x},${this.pMain.position.y}) scale(${this.pMain.scale.x},${this.pMain.scale.y})`
+        'transform',
+        `translate(${this.pMain.position.x},${this.pMain.position.y}) scale(${this.pMain.scale.x},${this.pMain.scale.y})`,
       );
 
       if (
         this.zoomLevel < this.maxZoom - 3 &&
-        this.options.colorAggregationMode === "none"
+        this.options.colorAggregationMode === 'none'
       ) {
-        const rect = document.createElement("rect");
-        rect.setAttribute("fill", "#e0e0e0");
-        rect.setAttribute("stroke", "#e0e0e0");
-        rect.setAttribute("x", 0);
-        rect.setAttribute("y", 0);
-        rect.setAttribute("height", this.dimensions[1]);
-        rect.setAttribute("width", this.dimensions[0]);
+        const rect = document.createElement('rect');
+        rect.setAttribute('fill', '#e0e0e0');
+        rect.setAttribute('stroke', '#e0e0e0');
+        rect.setAttribute('x', 0);
+        rect.setAttribute('y', 0);
+        rect.setAttribute('height', this.dimensions[1]);
+        rect.setAttribute('width', this.dimensions[0]);
         output.appendChild(rect);
 
-        const t = document.createElement("text");
-        t.setAttribute("fill", "#33333");
-        t.setAttribute("x", this.dimensions[0] / 2);
-        t.setAttribute("y", this.dimensions[1] / 2 + 5);
-        t.setAttribute("text-anchor", "middle");
-        t.setAttribute("font-family", "Arial");
-        t.setAttribute("font-size", "14");
+        const t = document.createElement('text');
+        t.setAttribute('fill', '#33333');
+        t.setAttribute('x', this.dimensions[0] / 2);
+        t.setAttribute('y', this.dimensions[1] / 2 + 5);
+        t.setAttribute('text-anchor', 'middle');
+        t.setAttribute('font-family', 'Arial');
+        t.setAttribute('font-size', '14');
         //t.setAttribute("width", 4);
         //t.setAttribute("dy", 16);
         t.innerHTML = this.options.notificationText;
@@ -739,30 +739,30 @@ const SequenceTrack = (HGC, ...args) => {
       }
 
       for (const tile of this.visibleAndFetchedTiles()) {
-        const g = document.createElement("g");
+        const g = document.createElement('g');
         const sprite = tile.rectGraphics.children[0];
 
         // place each sprite
         g.setAttribute(
-          "transform",
-          ` translate(${sprite.x},${sprite.y}) rotate(0) scale(${sprite.scale.x},${sprite.scale.y}) `
+          'transform',
+          ` translate(${sprite.x},${sprite.y}) rotate(0) scale(${sprite.scale.x},${sprite.scale.y}) `,
         );
 
         const rectData = tile.svgDataRect;
 
         // add each bar
         for (let i = 0; i < rectData.barXValues.length; i++) {
-          const rect = document.createElement("rect");
-          rect.setAttribute("fill", rectData.barColors[i]);
-          rect.setAttribute("stroke", rectData.barColors[i]);
+          const rect = document.createElement('rect');
+          rect.setAttribute('fill', rectData.barColors[i]);
+          rect.setAttribute('stroke', rectData.barColors[i]);
 
-          rect.setAttribute("x", rectData.barXValues[i]);
-          rect.setAttribute("y", rectData.barYValues[i]);
-          rect.setAttribute("height", rectData.barHeights[i]);
-          rect.setAttribute("width", rectData.barWidths[i]);
+          rect.setAttribute('x', rectData.barXValues[i]);
+          rect.setAttribute('y', rectData.barYValues[i]);
+          rect.setAttribute('height', rectData.barHeights[i]);
+          rect.setAttribute('width', rectData.barWidths[i]);
           if (this.options.barBorder) {
-            rect.setAttribute("stroke-width", "0.1");
-            rect.setAttribute("stroke", this.options.barBorderColor);
+            rect.setAttribute('stroke-width', '0.1');
+            rect.setAttribute('stroke', this.options.barBorderColor);
           }
 
           g.appendChild(rect);
@@ -770,20 +770,20 @@ const SequenceTrack = (HGC, ...args) => {
         output.appendChild(g);
 
         if (tile.svgDataText !== null) {
-          const g2 = document.createElement("g");
+          const g2 = document.createElement('g');
           const textData = tile.svgDataText;
           // add each text
           for (let i = 0; i < textData.letterXValues.length; i++) {
-            const t = document.createElement("text");
-            t.setAttribute("fill", "#FFFFFF");
-            t.setAttribute("fill-opacity", textData.letterAlpha[i]);
-            t.setAttribute("x", textData.letterXValues[i]);
-            t.setAttribute("y", textData.letterYValues[i] - 1);
-            t.setAttribute("font-family", "Arial");
-            t.setAttribute("font-size", "15");
-            t.setAttribute("font-weight", "bold");
-            t.setAttribute("width", 4);
-            t.setAttribute("dy", 16);
+            const t = document.createElement('text');
+            t.setAttribute('fill', '#FFFFFF');
+            t.setAttribute('fill-opacity', textData.letterAlpha[i]);
+            t.setAttribute('x', textData.letterXValues[i]);
+            t.setAttribute('y', textData.letterYValues[i] - 1);
+            t.setAttribute('font-family', 'Arial');
+            t.setAttribute('font-size', '15');
+            t.setAttribute('font-weight', 'bold');
+            t.setAttribute('width', 4);
+            t.setAttribute('dy', 16);
 
             t.innerHTML = textData.letter[i];
 
@@ -824,108 +824,108 @@ const icon =
 
 // default
 SequenceTrack.config = {
-  type: "horizontal-sequence",
-  datatype: ["multivec"],
+  type: 'horizontal-sequence',
+  datatype: ['multivec'],
   local: false,
-  orientation: "1d-horizontal",
-  thumbnail: new DOMParser().parseFromString(icon, "text/xml").documentElement,
+  orientation: '1d-horizontal',
+  thumbnail: new DOMParser().parseFromString(icon, 'text/xml').documentElement,
   availableOptions: [
-    "colorAggregationMode",
-    "extendedPreloading",
-    "labelPosition",
-    "labelColor",
-    "labelTextOpacity",
-    "labelBackgroundOpacity",
-    "notificationText",
-    "trackBorderWidth",
-    "trackBorderColor",
-    "backgroundColor",
-    "colorScale",
-    "barBorder",
-    "barBorderColor",
-    "fontSize",
-    "fontFamily",
-    "fontColor",
+    'colorAggregationMode',
+    'extendedPreloading',
+    'labelPosition',
+    'labelColor',
+    'labelTextOpacity',
+    'labelBackgroundOpacity',
+    'notificationText',
+    'trackBorderWidth',
+    'trackBorderColor',
+    'backgroundColor',
+    'colorScale',
+    'barBorder',
+    'barBorderColor',
+    'fontSize',
+    'fontFamily',
+    'fontColor',
   ],
   defaultOptions: {
-    colorAggregationMode: "none", // 'max', 'weighted'
+    colorAggregationMode: 'none', // 'max', 'weighted'
     extendedPreloading: false,
-    labelPosition: "topLeft",
-    labelColor: "black",
+    labelPosition: 'topLeft',
+    labelColor: 'black',
     labelTextOpacity: 0.4,
-    notificationText: "Zoom in to see nucleotides...",
+    notificationText: 'Zoom in to see nucleotides...',
     trackBorderWidth: 0,
-    trackBorderColor: "white",
-    backgroundColor: "white",
+    trackBorderColor: 'white',
+    backgroundColor: 'white',
     barBorder: true,
-    barBorderColor: "white",
+    barBorderColor: 'white',
     fontSize: 16,
-    fontFamily: "Arial",
-    fontColor: "white",
+    fontFamily: 'Arial',
+    fontColor: 'white',
     colorScale: [
       // A T G C N other
-      "#2c7bb6",
-      "#abd9e9",
-      "#ffffbf",
-      "#fdae61",
-      "#808080",
-      "#DCDCDC",
-    ]
+      '#2c7bb6',
+      '#abd9e9',
+      '#ffffbf',
+      '#fdae61',
+      '#808080',
+      '#DCDCDC',
+    ],
   },
-    optionsInfo: {
+  optionsInfo: {
     colorScale: {
       name: 'Color scheme',
       inlineOptions: {
         default: {
           value: [
-              // A T G C N other
-              "#007FFF",
-              "#e8e500",
-              "#008000",
-              "#FF0038",
-              "#800080",
-              "#DCDCDC",
-            ],
+            // A T G C N other
+            '#007FFF',
+            '#e8e500',
+            '#008000',
+            '#FF0038',
+            '#800080',
+            '#DCDCDC',
+          ],
           name: 'DRuMS',
         },
         logos: {
           value: [
-              // A T G C N other
-              "#22ca03",
-              "#c40003",
-              "#f6af08",
-              "#0000c7",
-              "#808080",
-              "#DCDCDC",
-            ],
+            // A T G C N other
+            '#22ca03',
+            '#c40003',
+            '#f6af08',
+            '#0000c7',
+            '#808080',
+            '#DCDCDC',
+          ],
           name: 'Logos / IGV',
         },
         bluesGreens: {
           value: [
-              // A T G C N other
-              "#a6cee3",
-              "#1f78b4",
-              "#b2df8a",
-              "#33a02c",
-              "#808080",
-              "#DCDCDC",
-            ],
+            // A T G C N other
+            '#a6cee3',
+            '#1f78b4',
+            '#b2df8a',
+            '#33a02c',
+            '#808080',
+            '#DCDCDC',
+          ],
           name: 'Blues / Greens  (CB friendly)',
         },
         bluesBeiges: {
           value: [
-              "#08519c",
-              "#6baed6",
-              "#993404",
-              "#fe9929",
-              "#808080",
-              "#DCDCDC"
-            ],
+            '#08519c',
+            '#6baed6',
+            '#993404',
+            '#fe9929',
+            '#808080',
+            '#DCDCDC',
+          ],
           name: 'Blues / Beiges (CB friendly)',
         },
       },
+    },
   },
-}
 };
 
 export default SequenceTrack;
