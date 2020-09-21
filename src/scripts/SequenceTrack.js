@@ -26,7 +26,9 @@ const SequenceTrack = (HGC, ...args) => {
       this.dataFetchingMode = context.dataConfig.type;
 
       this.updateOptions(this.options);
+    }
 
+    setPixiTexts() {
       this.pixiTexts = [];
       const letters = ["A", "T", "G", "C", "N", " "];
       this.letterWidths = [];
@@ -89,6 +91,7 @@ const SequenceTrack = (HGC, ...args) => {
       this.barBorderColor = colorToHex(newOptions.barBorderColor);
 
       this.localColorToHexScale();
+      this.setPixiTexts();
     }
 
     initTile(tile) {
@@ -100,20 +103,11 @@ const SequenceTrack = (HGC, ...args) => {
       tile.textGraphics = new HGC.libraries.PIXI.Graphics();
       tile.rectGraphics = new HGC.libraries.PIXI.Graphics();
       tile.borderGraphics = new HGC.libraries.PIXI.Graphics();
-      tile.tempGraphics = new HGC.libraries.PIXI.Graphics();
+      tile.tempGraphics =   new HGC.libraries.PIXI.Graphics();
 
       tile.graphics.addChild(tile.rectGraphics);
       tile.graphics.addChild(tile.textGraphics);
       tile.graphics.addChild(tile.borderGraphics);
-
-      tile.colorAndLetterData.forEach((td, i) => {
-        const letter = td.letter;
-
-        tile.texts[i] = new HGC.libraries.PIXI.Sprite(this.pixiTexts[letter]);
-        tile.texts[i].width = this.letterWidths[letter];
-        tile.texts[i].height = this.letterHeights[letter];
-        tile.texts[i].letter = letter;
-      });
 
       // stores which zoomLevel the tile belongs to. Needed for extendedPreloading
       tile.zoomLevel = parseInt(tile.tileId.split(".")[0], 10);
@@ -433,6 +427,15 @@ const SequenceTrack = (HGC, ...args) => {
     }
 
     drawTextSequence(tileX, tileWidth, tile) {
+      tile.colorAndLetterData.forEach((td, i) => {
+        const letter = td.letter;
+
+        tile.texts[i] = new HGC.libraries.PIXI.Sprite(this.pixiTexts[letter]);
+        tile.texts[i].width = this.letterWidths[letter];
+        tile.texts[i].height = this.letterHeights[letter];
+        tile.texts[i].letter = letter;
+      });
+
       const trackHeight = this.dimensions[1];
 
       const matrix = tile.colorAndLetterData;
@@ -551,7 +554,7 @@ const SequenceTrack = (HGC, ...args) => {
         // For fasta files maxZoom is equal to the hightest zoom level
         // Therefore the notification is shown only two levels below highest zoom level
         // We leave it like that intentionally for now.
-        this.zoomLevel < this.maxZoom - 1 &&
+        this.zoomLevel < this.maxZoom - 3 &&
         this.options.colorAggregationMode === "none"
       ) {
         this.showNotification();
@@ -709,7 +712,7 @@ const SequenceTrack = (HGC, ...args) => {
       );
 
       if (
-        this.zoomLevel < this.maxZoom - 1 &&
+        this.zoomLevel < this.maxZoom - 3 &&
         this.options.colorAggregationMode === "none"
       ) {
         const rect = document.createElement("rect");
@@ -861,14 +864,68 @@ SequenceTrack.config = {
     fontColor: "white",
     colorScale: [
       // A T G C N other
-      "#007FFF",
-      "#e8e500",
-      "#008000",
-      "#FF0038",
-      "#800080",
+      "#2c7bb6",
+      "#abd9e9",
+      "#ffffbf",
+      "#fdae61",
+      "#808080",
       "#DCDCDC",
-    ],
+    ]
   },
+    optionsInfo: {
+    colorScale: {
+      name: 'Color scheme',
+      inlineOptions: {
+        default: {
+          value: [
+              // A T G C N other
+              "#007FFF",
+              "#e8e500",
+              "#008000",
+              "#FF0038",
+              "#800080",
+              "#DCDCDC",
+            ],
+          name: 'DRuMS',
+        },
+        logos: {
+          value: [
+              // A T G C N other
+              "#22ca03",
+              "#c40003",
+              "#f6af08",
+              "#0000c7",
+              "#808080",
+              "#DCDCDC",
+            ],
+          name: 'Logos / IGV',
+        },
+        bluesGreens: {
+          value: [
+              // A T G C N other
+              "#a6cee3",
+              "#1f78b4",
+              "#b2df8a",
+              "#33a02c",
+              "#808080",
+              "#DCDCDC",
+            ],
+          name: 'Blues / Greens  (CB friendly)',
+        },
+        bluesBeiges: {
+          value: [
+              "#08519c",
+              "#6baed6",
+              "#993404",
+              "#fe9929",
+              "#808080",
+              "#DCDCDC"
+            ],
+          name: 'Blues / Beiges (CB friendly)',
+        },
+      },
+  },
+}
 };
 
 export default SequenceTrack;

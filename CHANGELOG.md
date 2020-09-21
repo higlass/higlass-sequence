@@ -1,3 +1,6 @@
+**v0.3.0**
+
+- More color schemes
 
 **v0.2.0**
 
