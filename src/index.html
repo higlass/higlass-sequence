@@ -259,6 +259,51 @@ And some other text
             "height": 25
           },
           {
+            "uid": "fastaex4",
+            "type": "horizontal-sequence",
+            "data": {
+              "type": "fasta",
+              "fastaUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa",
+              "faiUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.fa.fai",
+              "chromSizesUrl": "https://aveit.s3.amazonaws.com/higlass/data/sequence/hg38.mod.chrom.sizes"
+            },
+            "options": {
+              "colorAggregationMode": "none",
+              "labelPosition": "topLeft",
+              "labelColor": "black",
+              "labelTextOpacity": 0.4,
+              "valueScaling": "linear",
+              "trackBorderWidth": 0,
+              "trackBorderColor": "white",
+              "name": "hg38",
+              "backgroundColor": "white",
+              "barBorder": true,
+              "barBorderColor": "white",
+              "sortLargestOnTop": true,
+              "extendedPreloading": false,
+              "colorScale": [
+                "#08519c",
+                "#6baed6",
+                "#993404",
+                "#fe9929",
+                "#808080",
+                "#DCDCDC"
+              ],
+              "notificationText": "Zoom in to see nucleotides...",
+              "fontSize": 16,
+              "fontFamily": "Arial",
+              "fontColor": "white",
+              "textOption": {
+                "fontSize": "32px",
+                "fontFamily": "Arial",
+                "fill": 16777215,
+                "fontWeight": "bold"
+              }
+            },
+            "width": 568,
+            "height": 25
+          },
+          {
             "server": "http://higlass.io/api/v1",
             "uid": "emptytrack",
             "type": "empty",
@@ -478,7 +523,7 @@ And some other text
               "extendedPreloading": false,
               "colorScale": [
                 "#2c7bb6",
-                "#abd9e9",
+                "#abfff9",
                 "#ffffbf",
                 "#fdae61",
                 "#808080",

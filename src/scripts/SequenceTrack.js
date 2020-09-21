@@ -103,7 +103,7 @@ const SequenceTrack = (HGC, ...args) => {
       tile.textGraphics = new HGC.libraries.PIXI.Graphics();
       tile.rectGraphics = new HGC.libraries.PIXI.Graphics();
       tile.borderGraphics = new HGC.libraries.PIXI.Graphics();
-      tile.tempGraphics = new HGC.libraries.PIXI.Graphics();
+      tile.tempGraphics =   new HGC.libraries.PIXI.Graphics();
 
       tile.graphics.addChild(tile.rectGraphics);
       tile.graphics.addChild(tile.textGraphics);
@@ -914,13 +914,12 @@ SequenceTrack.config = {
         },
         bluesBeiges: {
           value: [
-              // A T G C N other
-              "#2c7bb6",
-              "#abd9e9",
-              "#ffffbf",
-              "#fdae61",
+              "#08519c",
+              "#6baed6",
+              "#993404",
+              "#fe9929",
               "#808080",
-              "#DCDCDC",
+              "#DCDCDC"
             ],
           name: 'Blues / Beiges (CB friendly)',
         },
