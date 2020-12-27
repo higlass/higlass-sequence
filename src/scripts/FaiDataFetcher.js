@@ -51,6 +51,7 @@ class FaiDataFetcher {
           max_width: TILE_SIZE * 2 ** maxZoom,
           min_pos: [0],
           max_pos: [totalLenth],
+          datatype: 'multivec_singleres_sequence'
         };
 
         if (callback) {

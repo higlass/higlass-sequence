@@ -60,11 +60,15 @@ const SequenceTrack = (HGC, ...args) => {
       });
     }
 
+    isMultivecSingleResSequence() {
+      return this.dataFetchingMode === 'fasta' || (this.tilesetInfo && this.tilesetInfo.datatype=='multivec_singleres_sequence'); 
+    }
+
     updateOptions(newOptions) {
       this.options = newOptions;
 
       // We are ignoring aggregation modes for fasta files.
-      if (this.dataFetchingMode === 'fasta') {
+      if (this.isMultivecSingleResSequence()) {
         this.options.colorAggregationMode = 'none';
       }
 
@@ -221,6 +225,8 @@ const SequenceTrack = (HGC, ...args) => {
         this.tilesetInfo.tile_size,
       );
 
+      console.log('tile', tile, 'tileX:', tileX, tileWidth);
+
       this.drawColoredRectangles(tileX, tileWidth, tile);
       this.drawTextSequence(tileX, tileWidth, tile);
     }
@@ -251,6 +257,8 @@ const SequenceTrack = (HGC, ...args) => {
         this.dataFetchingMode === 'fasta'
           ? (tile.matrix = tile.tileData.dense)
           : this.simpleUnFlatten(tile, tile.tileData.dense);
+
+      console.log('tile', tile)
     }
 
     /**
@@ -422,6 +430,7 @@ const SequenceTrack = (HGC, ...args) => {
 
         matrixWithColors.push(columnColors);
       }
+      console.log('matrixWithColors', matrixWithColors);
       tile.colorAndLetterData = matrixWithColors;
       return;
     }
@@ -531,6 +540,7 @@ const SequenceTrack = (HGC, ...args) => {
       );
       const sprite = new HGC.libraries.PIXI.Sprite(texture);
       sprite.width = this._xScale(tileX + tileWidth) - this._xScale(tileX);
+      console.log('sprint.width', sprite.width);
       sprite.height = trackHeight;
       sprite.x = this._xScale(tileX + 1);
       sprite.y = 0;
@@ -582,7 +592,7 @@ const SequenceTrack = (HGC, ...args) => {
       // For FASTA files we fix the resolution, therefore we also fix the zoomLevel
       // in the visible tiles
       const tiles =
-        this.dataFetchingMode === 'fasta'
+        this.isMultivecSingleResSequence()
           ? xTiles.map((x) => [this.maxZoom, x])
           : xTiles.map((x) => [this.zoomLevel, x]);
 
