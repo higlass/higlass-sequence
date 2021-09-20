@@ -8,3 +8,5 @@ register({
   config: SequenceTrack.config,
 });
 
+export default SequenceTrack;
+
