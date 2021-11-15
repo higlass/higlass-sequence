@@ -1,3 +1,7 @@
+**v0.3.5**
+
+- Fix an issue where rectangles would always be black on certain systems 
+
 **v0.3.0**
 
 - More color schemes

@@ -509,7 +509,7 @@ const SequenceTrack = (HGC, ...args) => {
     drawColoredRectangles(tileX, tileWidth, tile) {
       const trackHeight = this.dimensions[1];
 
-      const width = 10;
+      const width = 1;
       const matrix = tile.colorAndLetterData;
 
       for (let j = 0; j < matrix.length; j++) {
@@ -518,7 +518,7 @@ const SequenceTrack = (HGC, ...args) => {
         const nucleotide = matrix[j];
 
         this.addSVGInfoRect(tile, x, 0, width, trackHeight, nucleotide.color);
-
+        
         tile.tempGraphics.beginFill(this.colorHexMap[nucleotide.color]);
         tile.tempGraphics.drawRect(x, 0, width, trackHeight);
       }
@@ -529,6 +529,7 @@ const SequenceTrack = (HGC, ...args) => {
         tile.tempGraphics,
         HGC.libraries.PIXI.SCALE_MODES.NEAREST,
       );
+      
       const sprite = new HGC.libraries.PIXI.Sprite(texture);
       sprite.width = this._xScale(tileX + tileWidth) - this._xScale(tileX);
       sprite.height = trackHeight;
