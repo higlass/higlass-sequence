@@ -59,7 +59,7 @@
     "babel-preset-react": "^6.24.1",
     "sourcemap": "^0.1.0",
     "webpack": "^4.43.0",
-    "i": "^0.3.6"
+    "i": "^0.3.7"
   },
   "scripts": {
     "build-es": "rm -rf ./es/* && npx babel ./src/scripts/ --out-dir ./es/ --env-name esm",
