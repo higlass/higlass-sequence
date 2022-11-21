@@ -1,6 +1,6 @@
 {
   "name": "higlass-sequence",
-  "version": "0.3.5",
+  "version": "0.4.0",
   "description": "Sequence tracks for HiGlass",
   "private": false,
   "author": "Alexander Veit",
@@ -32,7 +32,6 @@
     "karma-verbose-reporter": "0.0.6",
     "node-sass": "^4.9.3",
     "optimize-css-assets-webpack-plugin": "^4.0.3",
-    "pixi.js": "^5.2.3",
     "postcss-flexbugs-fixes": "^3.3.1",
     "postcss-loader": "^2.1.6",
     "sass-loader": "^7.1.0",
@@ -59,6 +58,7 @@
     "babel-preset-react": "^6.24.1",
     "sourcemap": "^0.1.0",
     "webpack": "^4.43.0",
+    "higlass": "^1.11.11",
     "i": "^0.3.7"
   },
   "scripts": {
@@ -70,14 +70,12 @@
     "prerelease": "rm -rf dist/*; npm run build; zip -r dist.zip dist"
   },
   "dependencies": {
-    "d3-scale": "^1.0.7",
-    "d3-color": "^1.4.0",
-    "higlass": "1.11.2",
+    "d3-scale": "^4.0.2",
+    "d3-color": "^3.1.0",
+    "d3-dsv": "^3.0.1",
+    "slugid": "^3.0.0",
     "higlass-register": "^0.3.0",
-    "react": "^16.4.2",
-    "react-bootstrap": "^0.32.4",
-    "react-dom": "^16.4.2",
-    "@gmod/indexedfasta": "1.0.13",
-    "generic-filehandle": "2.0.2"
+    "@gmod/indexedfasta": "1.1.0",
+    "generic-filehandle": "2.2.3"
   }
 }
