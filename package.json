@@ -20,7 +20,7 @@
   ],
   "repository": "github:higlass/higlass-sequence",
   "devDependencies": {
-    "autoprefixer": "^8.6.5",
+    "autoprefixer": "^10.4.13",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
