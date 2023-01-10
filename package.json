@@ -1,6 +1,6 @@
 {
   "name": "higlass-sequence",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Sequence tracks for HiGlass",
   "private": false,
   "author": "Alexander Veit",
@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "d3-scale": "^4.0.2",
+    "d3-scale-chromatic": "^3.0.0",
     "d3-color": "^3.1.0",
     "d3-dsv": "^3.0.1",
     "slugid": "^3.0.0",

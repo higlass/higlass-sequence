@@ -1,4 +1,5 @@
-import { scaleLinear, scaleOrdinal, schemeCategory10 } from 'd3-scale';
+import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import {schemeCategory10} from 'd3-scale-chromatic';
 import { color } from 'd3-color';
 import FaiDataFetcher from './FaiDataFetcher';
 
