@@ -1,6 +1,6 @@
 {
   "name": "higlass-sequence",
-  "version": "0.4.2-beta.0",
+  "version": "0.4.2",
   "description": "Sequence tracks for HiGlass",
   "private": false,
   "author": "Alexander Veit",
