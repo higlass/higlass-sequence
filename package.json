@@ -52,7 +52,8 @@
     "sourcemap": "^0.1.0",
     "webpack": "^4.43.0",
     "higlass": "^1.11.11",
-    "i": "^0.3.7"
+    "i": "^0.3.7",
+    "cheerio": "=1.0.0-rc.3"
   },
   "scripts": {
     "build-es": "rm -rf ./es/* && npx babel ./src/scripts/ --out-dir ./es/ --env-name esm",
