@@ -1,6 +1,6 @@
 {
   "name": "higlass-sequence",
-  "version": "0.4.1",
+  "version": "0.4.2-beta.0",
   "description": "Sequence tracks for HiGlass",
   "private": false,
   "author": "Alexander Veit",
@@ -36,7 +36,6 @@
     "fetch-mock": "^8.3.2",
     "karma-server-side": "^1.8.0",
     "fs-extra": "^8.1.0",
-    "fs": "0.0.2",
     "chai": "^4.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.6.0",
@@ -70,7 +69,7 @@
     "d3-dsv": "^3.0.1",
     "slugid": "^3.0.0",
     "higlass-register": "^0.3.0",
-    "@gmod/indexedfasta": "1.1.0",
-    "generic-filehandle": "2.2.3"
+    "@gmod/indexedfasta": "^2.0.0",
+    "generic-filehandle": "^3.0.0"
   }
 }
