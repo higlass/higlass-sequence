@@ -43,14 +43,14 @@ module.exports = {
   },
   module: {
     rules: [
-      // Transpile the ESD6 files to ES5
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
+      // // Transpile the ESD6 files to ES5
+      // {
+      //   test: /\.js$/,
+      //   exclude: /node_modules/,
+      //   use: {
+      //     loader: 'babel-loader',
+      //   },
+      // },
       // Extract them HTML files
       {
         test: /\.html$/,
