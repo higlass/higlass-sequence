@@ -3,12 +3,13 @@ import {schemeCategory10} from 'd3-scale-chromatic';
 import { color } from 'd3-color';
 import FaiDataFetcher from './FaiDataFetcher';
 
-const SequenceTrack = (HGC, ...args) => {
-  if (!new.target) {
-    throw new Error(
-      'Uncaught TypeError: Class constructor cannot be invoked without "new"',
-    );
-  }
+//const SequenceTrack = (HGC, ...args) => {
+function SequenceTrack(HGC, ...args){
+  // if (!new.target) {
+  //   throw new Error(
+  //     'Uncaught TypeError: Class constructor cannot be invoked without "new"',
+  //   );
+  // }
 
   // Services
   const { tileProxy, pixiRenderer } = HGC.services;
