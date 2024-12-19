@@ -2,6 +2,27 @@ import slugid from 'slugid';
 import { RemoteFile } from 'generic-filehandle';
 import { tsvParseRows } from 'd3-dsv';
 
+export function convertBasesToMultivec(str) {
+  const res = [];
+
+  [...str].forEach((c) => {
+    if (c === 'A' || c === 'a') {
+      res.push([1, 0, 0, 0, 0, 0]);
+    } else if (c === 'T' || c === 't') {
+      res.push([0, 1, 0, 0, 0, 0]);
+    } else if (c === 'G' || c === 'g') {
+      res.push([0, 0, 1, 0, 0, 0]);
+    } else if (c === 'C' || c === 'c') {
+      res.push([0, 0, 0, 1, 0, 0]);
+    } else if (c === 'N' || c === 'n') {
+      res.push([0, 0, 0, 0, 1, 0]);
+    } else {
+      res.push([0, 0, 0, 0, 0, 1]);
+    }
+  });
+  return res;
+}
+
 class FaiDataFetcher {
   constructor(dataConfig) {
     this.dataConfig = dataConfig;
@@ -167,30 +188,9 @@ class FaiDataFetcher {
 
       return Promise.all(recordPromises).then((values) => {
         const allBases = values.join('');
-        return this.convertBasesToMultivec(allBases);
+        return convertBasesToMultivec(allBases);
       });
     });
-  }
-
-  convertBasesToMultivec(str) {
-    const res = [];
-
-    [...str].forEach((c) => {
-      if (c === 'A' || c === 'a') {
-        res.push([1, 0, 0, 0, 0, 0]);
-      } else if (c === 'T' || c === 't') {
-        res.push([0, 1, 0, 0, 0, 0]);
-      } else if (c === 'G' || c === 'g') {
-        res.push([0, 0, 1, 0, 0, 0]);
-      } else if (c === 'C' || c === 'c') {
-        res.push([0, 0, 0, 1, 0, 0]);
-      } else if (c === 'N' || c === 'n') {
-        res.push([0, 0, 0, 0, 1, 0]);
-      } else {
-        res.push([0, 0, 0, 0, 0, 1]);
-      }
-    });
-    return res;
   }
 
   parseChromsizesRows(data) {
