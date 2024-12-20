@@ -1,6 +1,6 @@
 import register from 'higlass-register';
 
-import { SequenceTrack} from './scripts';
+import { SequenceTrack } from './scripts';
 
 register({
   name: 'SequenceTrack',
@@ -8,5 +8,6 @@ register({
   config: SequenceTrack.config,
 });
 
-export default SequenceTrack;
+console.log('registered');
 
+export default SequenceTrack;

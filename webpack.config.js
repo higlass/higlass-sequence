@@ -6,9 +6,9 @@ const TerserPlugin = require('terser-webpack-plugin');
 const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   entry: {
-    'higlass-sequence': './src/index.js'
+    'higlass-sequence': './src/index.js',
     //'higlass-sequence.min': './src/index.js'
   },
   output: {
@@ -16,20 +16,33 @@ module.exports = {
     library: '[name]',
     libraryTarget: 'umd',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    publicPath: '/',
   },
   devtool: process.env.NODE_ENV === 'production' ? false : 'cheap-source-map',
+  // devServer: {
+  //   contentBase: [path.join(__dirname, 'node_modules/higlass/dist')],
+  //   publicPath: '/',
+  //   watchContentBase: true,
+  // },
   devServer: {
-    contentBase: [
-      path.join(__dirname, 'node_modules/higlass/dist'),
-    ],
-    publicPath: '/',
-    watchContentBase: true,
+    static: [path.resolve(__dirname, 'src')],
+    historyApiFallback: true,
+  },
+  resolve: {
+    alias: {
+      './hglib.js': path.resolve(
+        __dirname,
+        'node_modules/higlass/dist/hglib.js',
+      ),
+      './hglib.css': path.resolve(
+        __dirname,
+        'node_modules/higlass/dist/hglib.css',
+      ),
+    },
   },
   optimization: {
     minimize: process.env.NODE_ENV === 'production' ? true : false,
-    minimizer: [
-      new TerserPlugin()],
+    minimizer: [new TerserPlugin()],
     splitChunks: {
       cacheGroups: {
         styles: {
@@ -72,6 +85,10 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   externals: {
@@ -104,11 +121,8 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: './index.html',
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
+      scriptLoading: 'blocking',
+      inject: 'head',
     }),
     new UnminifiedWebpackPlugin(),
   ],
