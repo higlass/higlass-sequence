@@ -124,6 +124,5 @@ module.exports = {
       scriptLoading: 'blocking',
       inject: 'head',
     }),
-    new UnminifiedWebpackPlugin(),
   ],
 };
