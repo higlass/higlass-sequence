@@ -27,6 +27,7 @@
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.7",
     "autoprefixer": "^10.4.20",
     "babel-loader": "^8.2.2",
+    "babel-polyfill": "^6.26.0",
     "chai": "^4.2.0",
     "cheerio": "^1.0.0",
     "enzyme": "^3.11.0",
