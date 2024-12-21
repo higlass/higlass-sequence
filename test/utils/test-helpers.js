@@ -1,7 +1,4 @@
-import {
-  mount,
-  configure
-} from 'enzyme';
+import { mount, configure } from 'enzyme';
 
 import {
   HiGlassComponent,
@@ -10,7 +7,7 @@ import {
   getTrackObjectFromHGC,
 } from 'higlass';
 
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 configure({ adapter: new Adapter() });
 
 /**
@@ -31,21 +28,22 @@ export const mountHGComponent = (prevDiv, prevHgc, viewConf, done, options) => {
     global.document.body.removeChild(prevDiv);
   }
 
-  const style = (options && options.style) || 'width:800px; background-color: lightgreen;';
+  const style =
+    (options && options.style) || 'width:800px; background-color: lightgreen;';
   const bounded = (options && options.bounded) || false;
 
   console.log('options', options, 'style:', style);
-  
+
   const div = global.document.createElement('div');
   global.document.body.appendChild(div);
 
   div.setAttribute('style', style);
   div.setAttribute('id', 'simple-hg-component');
 
-  const hgc = mount(<HiGlassComponent
-    options={{ bounded }}
-    viewConfig={viewConf}
-  />, { attachTo: div });
+  const hgc = mount(
+    <HiGlassComponent options={{ bounded }} viewConfig={viewConf} />,
+    { attachTo: div },
+  );
 
   hgc.update();
   waitForTilesLoaded(hgc.instance(), () => {
@@ -55,7 +53,7 @@ export const mountHGComponent = (prevDiv, prevHgc, viewConf, done, options) => {
   return [div, hgc];
 };
 
-export const removeHGComponent = div => {
+export const removeHGComponent = (div) => {
   if (!div) return;
 
   ReactDOM.unmountComponentAtNode(div);
@@ -69,5 +67,4 @@ export const waitForDataLoaded = (delayInMs, dataLoadedCallback) => {
   setTimeout(() => {
     dataLoadedCallback();
   }, delayInMs);
-
 };
