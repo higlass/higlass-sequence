@@ -261,6 +261,10 @@ const SequenceTrack = (HGC, ...args) => {
      * @returns {Array} 2D array representation of data
      */
     simpleUnFlatten(tile, data) {
+      if (!tile.tileData.shape) {
+        this.setError('Tile data missing shape');
+        return [];
+      }
       const shapeX = tile.tileData.shape[0]; // number of different nucleotides in each bar
       const shapeY = tile.tileData.shape[1]; // number of bars
 
@@ -588,6 +592,8 @@ const SequenceTrack = (HGC, ...args) => {
         this.tilesetInfo.datatype === 'sequence'
           ? xTiles.map((x) => [this.maxZoom, x])
           : xTiles.map((x) => [this.zoomLevel, x]);
+
+      console.log('tiles', tiles);
 
       this.setVisibleTiles(tiles);
       return;
