@@ -593,8 +593,6 @@ const SequenceTrack = (HGC, ...args) => {
           ? xTiles.map((x) => [this.maxZoom, x])
           : xTiles.map((x) => [this.zoomLevel, x]);
 
-      console.log('tiles', tiles);
-
       this.setVisibleTiles(tiles);
       return;
     }
