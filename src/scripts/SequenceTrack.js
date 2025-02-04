@@ -19,13 +19,18 @@ const SequenceTrack = (HGC, ...args) => {
       super(context, options);
 
       this.dataFetchingMode = context.dataConfig.type;
+      this.pixiTexts = [];
 
       this.updateOptions(this.options);
     }
 
     setPixiTexts() {
-      this.pixiTexts = [];
+
+      if (Object.keys(this.pixiTexts).length > 0) {
+        return
+      }
       const letters = ['A', 'T', 'G', 'C', 'N', ' '];
+      this.pixiTexts = [];
       this.letterWidths = [];
       this.letterHeights = [];
       this.maxLetterWidth = 0;
@@ -70,6 +75,9 @@ const SequenceTrack = (HGC, ...args) => {
         fontWeight: 'bold',
       };
 
+      if ("notificationText" in this) {
+        this.notificationText.destroy()
+      }
       this.notificationText = new HGC.libraries.PIXI.Text(
         newOptions.notificationText,
         {
@@ -120,16 +128,22 @@ const SequenceTrack = (HGC, ...args) => {
     rerender(newOptions, updateOptions = true) {
       const visibleAndFetched = this.visibleAndFetchedTiles();
 
+      if (visibleAndFetched == null) return;
+
       if (updateOptions) {
         this.updateOptions(newOptions);
         this.refreshTiles();
         // if color scale has changed we need to reinitialize colors
+        if (visibleAndFetched == null) return;
         for (let i = 0; i < visibleAndFetched.length; i++) {
           this.createColorAndLetterData(visibleAndFetched[i]);
         }
       }
 
+      if (visibleAndFetched == null) return;
+
       for (let i = 0; i < visibleAndFetched.length; i++) {
+        if (visibleAndFetched == null) return;
         this.renderTile(visibleAndFetched[i]);
       }
     }
@@ -144,7 +158,6 @@ const SequenceTrack = (HGC, ...args) => {
       // tile.textGraphics.destroy(true);
       // tile.borderGraphics.destroy(true);
       // tile.texts = [];
-
       this.rerender(this.options, false);
     }
 
@@ -221,6 +234,7 @@ const SequenceTrack = (HGC, ...args) => {
         this.tilesetInfo.tile_size,
       );
 
+      if (tile == null) return;
       this.drawColoredRectangles(tileX, tileWidth, tile);
       this.drawTextSequence(tileX, tileWidth, tile);
     }
@@ -530,12 +544,16 @@ const SequenceTrack = (HGC, ...args) => {
 
       // vertical bars are drawn onto the graphics object
       // and a texture is generated from that
+      if (pixiRenderer == null || tile == null || tile.tempGraphics == null) return;
       const texture = pixiRenderer.generateTexture(
         tile.tempGraphics,
         HGC.libraries.PIXI.SCALE_MODES.NEAREST,
       );
+      if (texture == null) return;
 
       const sprite = new HGC.libraries.PIXI.Sprite(texture);
+      if (sprite == null) return;
+
       sprite.width = this._xScale(tileX + tileWidth) - this._xScale(tileX);
       sprite.height = trackHeight;
       sprite.x = this._xScale(tileX + 1);
@@ -691,8 +709,8 @@ const SequenceTrack = (HGC, ...args) => {
     setDimensions(newDimensions) {
       super.setDimensions(newDimensions);
 
-      const visibleAndFetched = this.visibleAndFetchedTiles();
-      visibleAndFetched.map((a) => this.initTile(a));
+      // const visibleAndFetched = this.visibleAndFetchedTiles();
+      // visibleAndFetched.map((a) => this.initTile(a));
     }
 
     exportSVG() {
